@@ -1,6 +1,6 @@
 # servicemangerapp
 
-A new Flutter project.
+Aplicativo para gestão de manutenção, desenvolvido em Flutter.
 
 ## Getting Started
 
