@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_forget-password/page_reset_password.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-up/page_sign-up.dart';
-import 'package:servicemangerapp/src/services/firebase_auth.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_auth.dart';
 
 class PageSignIn extends StatefulWidget {
   const PageSignIn({super.key});

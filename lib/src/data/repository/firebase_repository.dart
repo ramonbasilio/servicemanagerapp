@@ -5,16 +5,16 @@ import 'package:servicemangerapp/src/data/model/client_model.dart';
 class FirebaseRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late final String idUser;
+  late final String? emailUser;                          
 
   FirebaseRepository() {
-    idUser = _firebaseAuth.currentUser!.uid;
+    emailUser = _firebaseAuth.currentUser!.email;
   }
 
   Future<void> registerClient({required ClientModel client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(idUser)
+        .doc(emailUser)
         .collection('Clients')
         .doc(client.id)
         .set(client.toMap());
@@ -24,7 +24,7 @@ class FirebaseRepository {
     List<ClientModel> listClients = [];
     await _firebaseFirestore
         .collection('User')
-        .doc(idUser)
+        .doc(emailUser)
         .collection('Clients')
         .get()
         .then((querySnapshot) {
@@ -38,7 +38,7 @@ class FirebaseRepository {
   Future<void> updateClient({required ClientModel client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(idUser)
+        .doc(emailUser)
         .collection('Clients')
         .doc(client.id)
         .update(client.toMap());
@@ -47,7 +47,7 @@ class FirebaseRepository {
   Future<void> deleteClient({required String id}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(idUser)
+        .doc(emailUser)
         .collection('Clients')
         .doc(id)
         .delete();

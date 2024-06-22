@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-in/page_sign-in.dart';
-import 'package:servicemangerapp/src/services/firebase_auth.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_auth.dart';
 
 
 class PageAccount extends StatelessWidget {

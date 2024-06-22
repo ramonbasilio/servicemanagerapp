@@ -9,8 +9,10 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit
 
 class PageListClientes extends StatelessWidget {
   PageListClientes({super.key});
-  var clientController = Get.put(ClientsProvider());
-
+  var clientController = Get.put(
+    permanent: false,
+    ClientsProvider(),
+  );
 
   @override
   Widget build(BuildContext context) {
