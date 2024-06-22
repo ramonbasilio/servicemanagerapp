@@ -20,6 +20,7 @@
     }
   },
   "hosting": {
+    "site": "servicemangerappv2",
     "public": "build/web",
     "ignore": [
       "firebase.json",

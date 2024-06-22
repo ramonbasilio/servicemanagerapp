@@ -1,34 +1,35 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
 
-class ClientsProvider extends GetxController implements GetxService {
+class ClientsProvider extends GetxController {
   var isLoading = true.obs;
   var allClients = <ClientModel>[].obs;
   var foundClients = <ClientModel>[].obs;
-  int get lengthClients {
-    //getAllClientsProvider();
-    return allClients.length;
-  }
 
   FirebaseRepository _firebaseRepository = FirebaseRepository();
+  
+  
 
   @override
   void onInit() {
     getAllClientsProvider();
-    foundClients.value = allClients;
+    print('ponto A)');
     super.onInit();
   }
 
   Future<void> getAllClientsProvider() async {
+    print('ponto B)');
     allClients.value = [];
     List<ClientModel> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));
     for (var x in response) {
       allClients.add(x);
     }
+    foundClients.value = allClients;
   }
 
   Future<void> registerClientProvider({required ClientModel client}) async {
@@ -41,7 +42,7 @@ class ClientsProvider extends GetxController implements GetxService {
     getAllClientsProvider();
   }
 
-    Future<void> deleteProvider({required String id}) async {
+  Future<void> deleteProvider({required String id}) async {
     await _firebaseRepository.deleteClient(id: id);
     getAllClientsProvider();
   }

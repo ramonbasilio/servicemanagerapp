@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
@@ -9,6 +10,7 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit
 class PageListClientes extends StatelessWidget {
   PageListClientes({super.key});
   var clientController = Get.put(ClientsProvider());
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +45,14 @@ class PageListClientes extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     decoration: const InputDecoration(hintText: 'Pesquisar...'),
-                    onChanged: (value) {
-                      clientController.searchClient(name: value);
+                    onChanged: (value) async {
+                      await clientController.searchClient(name: value);
                     },
                   ),
                 )
               ]),
             ),
+
             Flexible(
               child: Obx(
                 () => clientController.foundClients.isEmpty

@@ -10,9 +10,9 @@ import 'package:servicemangerapp/src/pages/widgets/confirmationWidget.dart';
 class PageEditClient extends StatefulWidget {
   ClientModel client;
   PageEditClient({
-    Key? key,
+    super.key,
     required this.client,
-  }) : super(key: key);
+  });
 
   @override
   State<PageEditClient> createState() => _PageEditClientState();
@@ -45,7 +45,7 @@ class _PageEditClientState extends State<PageEditClient> {
     super.dispose();
   }
 
-  void _salvarCliente() {
+  void _salvarCliente()async {
     if (_formKey.currentState!.validate()) {
       ClientModel myClient = ClientModel(
           name: _nameController.text,
@@ -53,13 +53,13 @@ class _PageEditClientState extends State<PageEditClient> {
           email: _emailController.text,
           notes: _notesController.text,
           id: _client.id);
-      clientController.updateClientProvider(client: myClient);
+     await clientController.updateClientProvider(client: myClient);
       Get.back();
     }
   }
 
-  void _deleteCliente() {
-    clientController.deleteProvider(id: _client.id!);
+  void _deleteCliente() async {
+    await clientController.deleteProvider(id: _client.id!);
     Get.back();
   }
 

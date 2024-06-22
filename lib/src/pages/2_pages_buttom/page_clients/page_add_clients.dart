@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
@@ -18,6 +19,11 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final _emailController = TextEditingController();
   final _notesController = TextEditingController();
   ClientsProvider clientController = Get.find();
+
+  final phoneMask = MaskTextInputFormatter(
+    initialText: '(##) #####-####',
+    mask: '(##) #####-####');
+
 
   @override
   void dispose() {
@@ -75,6 +81,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 },
               ),
               TextFormField(
+                inputFormatters: [phoneMask],
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Telefone'),
                 validator: (value) {
