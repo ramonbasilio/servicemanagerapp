@@ -9,10 +9,7 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit
 
 class PageListClientes extends StatelessWidget {
   PageListClientes({super.key});
-  var clientController = Get.put(
-    permanent: false,
-    ClientsProvider(),
-  );
+  ClientsProvider clientController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +63,15 @@ class PageListClientes extends StatelessWidget {
                             children: [
                               ListTile(
                                 onTap: () {
-                                  Get.to(() => PageEditClient(
-                                      client: clientController
-                                          .foundClients[index]));
+                                  if (clientController
+                                      .controlAddClientPage.value) {
+                                    Get.back(result: clientController
+                                            .foundClients[index]);
+                                  } else {
+                                    Get.to(() => PageEditClient(
+                                        client: clientController
+                                            .foundClients[index]));
+                                  }
                                 },
                                 leading: CircleAvatar(
                                   child: Text(clientController

@@ -50,21 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCMFba2u_hIxOC0tm_BeFZ-C3TttkeoDB4',
-    appId: '1:591083413579:web:187da2cbfc53d23e36adce',
-    messagingSenderId: '591083413579',
-    projectId: 'servicemanager-app',
-    authDomain: 'servicemanager-app.firebaseapp.com',
-    storageBucket: 'servicemanager-app.appspot.com',
-    measurementId: 'G-GDHD47EZQP',
+    apiKey: 'AIzaSyDW0cduRar9TJbHEzoxSG0AM09kHXVUzHc',
+    appId: '1:528774060892:web:9343969ca19f2d47547f99',
+    messagingSenderId: '528774060892',
+    projectId: 'servicemanager-43bad',
+    authDomain: 'servicemanager-43bad.firebaseapp.com',
+    storageBucket: 'servicemanager-43bad.appspot.com',
+    measurementId: 'G-YXLDJ66D9B',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDVdop0Sa6B6__UHVkk5YktaKLbaA5vybk',
-    appId: '1:591083413579:android:74cc73ea91fe0bd536adce',
-    messagingSenderId: '591083413579',
-    projectId: 'servicemanager-app',
-    storageBucket: 'servicemanager-app.appspot.com',
+    apiKey: 'AIzaSyAj1aJDrE1XIZe5kvu-8fsR3_ADQ-qXPU8',
+    appId: '1:528774060892:android:a2a65058a5213c1d547f99',
+    messagingSenderId: '528774060892',
+    projectId: 'servicemanager-43bad',
+    storageBucket: 'servicemanager-43bad.appspot.com',
   );
 
 }

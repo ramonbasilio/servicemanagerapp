@@ -1,28 +1,22 @@
 // ignore_for_file: prefer_final_fields
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
 
 class ClientsProvider extends GetxController {
-  var isLoading = true.obs;
+  var controlAddClientPage = false.obs;
   var allClients = <ClientModel>[].obs;
   var foundClients = <ClientModel>[].obs;
 
   FirebaseRepository _firebaseRepository = FirebaseRepository();
   
-  
-
   @override
   void onInit() {
     getAllClientsProvider();
-    print('ponto A)');
     super.onInit();
   }
 
   Future<void> getAllClientsProvider() async {
-    print('ponto B)');
     allClients.value = [];
     List<ClientModel> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));

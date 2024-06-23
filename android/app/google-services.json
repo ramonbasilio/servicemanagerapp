@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "591083413579",
-    "project_id": "servicemanager-app",
-    "storage_bucket": "servicemanager-app.appspot.com"
+    "project_number": "528774060892",
+    "project_id": "servicemanager-43bad",
+    "storage_bucket": "servicemanager-43bad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:591083413579:android:74cc73ea91fe0bd536adce",
+        "mobilesdk_app_id": "1:528774060892:android:a2a65058a5213c1d547f99",
         "android_client_info": {
           "package_name": "com.appmanugestao.app.servicemangerapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDVdop0Sa6B6__UHVkk5YktaKLbaA5vybk"
+          "current_key": "AIzaSyAj1aJDrE1XIZe5kvu-8fsR3_ADQ-qXPU8"
         }
       ],
       "services": {

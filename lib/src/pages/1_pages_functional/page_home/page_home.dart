@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_input.dart';
 import 'package:servicemangerapp/src/pages/widgets/buttomHomePageWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/statusServiceWidget.dart';
 
@@ -42,7 +43,9 @@ class PageHome extends StatelessWidget {
                   nameButtom: 'Clientes',
                 ),
                 ButtomHomePageWidget(
-                  func: (() {}),
+                  func: (() {
+                    Get.to(()=> PageInput());
+                  }),
                   nameButtom: 'Entrada',
                 ),
                 ButtomHomePageWidget(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,6 +10,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Get.put(ClientsProvider());
   runApp(const MyApp());
 }
 
