@@ -7,8 +7,8 @@ class FirebaseRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late final String? emailUser;                          
 
-  FirebaseRepository() {
-    emailUser = _firebaseAuth.currentUser!.email;
+   FirebaseRepository() {
+     emailUser = _firebaseAuth.currentUser!.email;
   }
 
   Future<void> registerClient({required ClientModel client}) async {

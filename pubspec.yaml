@@ -41,6 +41,9 @@ dependencies:
   cloud_firestore: ^5.0.1
   uuid: ^4.4.0
   mask_text_input_formatter: ^2.9.0
+  camera_camera: ^3.0.0
+  image_picker: ^1.1.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

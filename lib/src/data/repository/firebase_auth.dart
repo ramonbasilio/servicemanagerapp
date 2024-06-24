@@ -62,7 +62,6 @@ class FireAuth {
 
       }
     } on FirebaseAuthException catch (e) {
-      print('Erro: ${e.code}');
       if (context.mounted) {
         AlertsAuth.snackBarMessageFirebaseAuth(
           context,

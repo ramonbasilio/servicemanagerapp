@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_account/page_account.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_historic/page_historic.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_home/page_home.dart';
@@ -11,12 +13,22 @@ class PageInit extends StatefulWidget {
 }
 
 class _PageInitState extends State<PageInit> {
+  
+  @override
+  void initState() {
+    Get.put(ClientsProvider()); 
+    super.initState();
+  }
+
+
   final List<Widget> _pages = [
     const PageHome(),
     const PageHistoric(),
     const PageAccount(),
   ];
   int _index = 0;
+
+  
 
   void onTabTapped(int index) {
     setState(() {

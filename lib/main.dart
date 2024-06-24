@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -10,8 +11,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Get.put(ClientsProvider());
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => CameraProvider(),
+    child:  MyApp()));
 }
 
 class MyApp extends StatelessWidget {

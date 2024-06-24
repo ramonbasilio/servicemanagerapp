@@ -1,21 +1,52 @@
+import 'dart:io';
+
+import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
 
-class PageInput extends StatelessWidget {
+class PageInput extends StatefulWidget {
   PageInput({super.key});
 
+  @override
+  State<PageInput> createState() => _PageInputState();
+}
+
+class _PageInputState extends State<PageInput> {
   final TextEditingController _equipmentController = TextEditingController();
   final TextEditingController _brandController = TextEditingController();
   final TextEditingController _modelController = TextEditingController();
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
+
   ClientsProvider clientController = Get.find();
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
+  File? arquivo;
+  List<File> myImages = [];
+
+  showPreview(File file, BuildContext context) async {
+    final myProvider = Provider.of<CameraProvider>(context, listen: false);
+    File? arq = await Get.to(() => PreviewPageCamera(file: file));
+    if (arq != null) {
+      myProvider.addFile(file);
+      myImages = myProvider.listFileImage;
+
+      setState(() {
+        for (var x in myProvider.listFileImage) {
+          print('Files: $x');
+        }
+        arquivo = arq;
+      });
+      Get.back();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +63,7 @@ class PageInput extends StatelessWidget {
                 children: [
                   const Text(
                     'Cliente',
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 20),
                   ),
                   IconButton(
                     iconSize: 30,
@@ -85,9 +116,123 @@ class PageInput extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Acessórios'),
               ),
               TextFormField(
-                controller: _accessoriesController,
-                decoration: const InputDecoration(labelText: 'Acessórios'),
+                maxLines: 5,
+                controller: _defectController,
+                decoration:
+                    const InputDecoration(labelText: 'Discrição do defeito'),
               ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Fotos',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      Get.to(() => CameraCamera(
+                          onFile: (File file) => showPreview(file, context)));
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: myImages.isNotEmpty && myImages.length == 1
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                width: 100,
+                                height: 100,
+                                myImages[0],
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const Center(
+                              child: Text('Adicionar foto'),
+                            ),
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(10)),
+                    child:  myImages.isNotEmpty && myImages.length == 2
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                width: 100,
+                                height: 100,
+                                myImages[1],
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const Center(
+                              child: Text('Adicionar foto'),
+                            ),
+                  ),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(10)),
+                    child:  myImages.isNotEmpty && myImages.length == 3
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                width: 100,
+                                height: 100,
+                                myImages[2],
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const Center(
+                              child: Text('Adicionar foto'),
+                            ),
+                  ),
+                ],
+              )
+              // Row(
+              //   children: [
+              //     GestureDetector(
+              //       onTap: () async {
+              //         Get.to(() => CameraCamera(
+              //             onFile: (File file) => showPreview(file, context)));
+              //       },
+              //       child: Container(
+              //         height: 100,
+              //         width: 100,
+              //         decoration: BoxDecoration(
+              //             border: Border.all(),
+              //             borderRadius: BorderRadius.circular(10)),
+              //         child: arquivo != null
+              //             ? ClipRRect(
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 child: Image.file(
+              //                   width: 100,
+              //                   height: 100,
+              //                   arquivo!,
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //               )
+              //             : const Center(
+              //                 child: Text('Adicionar foto'),
+              //               ),
+              //       ),
+              //     )
+              //   ],
+              // )
             ],
           ),
         ),
