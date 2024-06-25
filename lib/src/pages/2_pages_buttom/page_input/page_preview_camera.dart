@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 
 class PreviewPageCamera extends StatelessWidget {
   File file;
+  bool checkImage;
 
-  PreviewPageCamera({Key? key, required this.file}) : super(key: key);
+  PreviewPageCamera({super.key, required this.file, required this.checkImage});
 
   @override
   Widget build(BuildContext context) {
@@ -16,30 +17,30 @@ class PreviewPageCamera extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-                Positioned.fill(
-                  child: Image.file(file, fit: BoxFit.cover),
-                ),
+                Positioned.fill(child: Image.file(file, fit: BoxFit.cover)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(32),
-                        child: CircleAvatar(
-                          radius: 32,
-                          backgroundColor: Colors.black.withOpacity(0.5),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.check, //FIRAR FOTO
-                              color: Colors.white,
-                              size: 30,
+                    checkImage
+                        ? const SizedBox.shrink()
+                        : Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: CircleAvatar(
+                                radius: 32,
+                                backgroundColor: Colors.black.withOpacity(0.5),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.check, //FIRAR FOTO
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  onPressed: () => Get.back(result: file),
+                                ),
+                              ),
                             ),
-                            onPressed: () => Get.back(result: file),
                           ),
-                        ),
-                      ),
-                    ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(

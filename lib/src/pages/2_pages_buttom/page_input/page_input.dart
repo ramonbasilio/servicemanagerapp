@@ -9,6 +9,7 @@ import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
+import 'package:servicemangerapp/src/pages/widgets/cameWidget.dart';
 
 class PageInput extends StatefulWidget {
   PageInput({super.key});
@@ -32,20 +33,17 @@ class _PageInputState extends State<PageInput> {
   List<File> myImages = [];
 
   showPreview(File file, BuildContext context) async {
-    final myProvider = Provider.of<CameraProvider>(context, listen: false);
-    File? arq = await Get.to(() => PreviewPageCamera(file: file));
-    if (arq != null) {
-      myProvider.addFile(file);
-      myImages = myProvider.listFileImage;
-
-      setState(() {
-        for (var x in myProvider.listFileImage) {
-          print('Files: $x');
-        }
-        arquivo = arq;
-      });
-      Get.back();
-    }
+    // final myProvider = Provider.of<CameraProvider>(context, listen: false);
+    // File? arq = await Get.to(() => );
+    // if (arq != null) {
+    //   setState(() {
+    //     for (var x in myProvider.listFileImage) {
+    //       print('Files: $x');
+    //     }
+    //     arquivo = arq;
+    //   });
+    //   Get.back();
+    // }
   }
 
   @override
@@ -132,107 +130,7 @@ class _PageInputState extends State<PageInput> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      Get.to(() => CameraCamera(
-                          onFile: (File file) => showPreview(file, context)));
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: myImages.isNotEmpty && myImages.length == 1
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(
-                                width: 100,
-                                height: 100,
-                                myImages[0],
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Center(
-                              child: Text('Adicionar foto'),
-                            ),
-                    ),
-                  ),
-                  Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child:  myImages.isNotEmpty && myImages.length == 2
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(
-                                width: 100,
-                                height: 100,
-                                myImages[1],
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Center(
-                              child: Text('Adicionar foto'),
-                            ),
-                  ),
-                  Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child:  myImages.isNotEmpty && myImages.length == 3
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(
-                                width: 100,
-                                height: 100,
-                                myImages[2],
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Center(
-                              child: Text('Adicionar foto'),
-                            ),
-                  ),
-                ],
-              )
-              // Row(
-              //   children: [
-              //     GestureDetector(
-              //       onTap: () async {
-              //         Get.to(() => CameraCamera(
-              //             onFile: (File file) => showPreview(file, context)));
-              //       },
-              //       child: Container(
-              //         height: 100,
-              //         width: 100,
-              //         decoration: BoxDecoration(
-              //             border: Border.all(),
-              //             borderRadius: BorderRadius.circular(10)),
-              //         child: arquivo != null
-              //             ? ClipRRect(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 child: Image.file(
-              //                   width: 100,
-              //                   height: 100,
-              //                   arquivo!,
-              //                   fit: BoxFit.cover,
-              //                 ),
-              //               )
-              //             : const Center(
-              //                 child: Text('Adicionar foto'),
-              //               ),
-              //       ),
-              //     )
-              //   ],
-              // )
+              const CameraWidget(),
             ],
           ),
         ),
