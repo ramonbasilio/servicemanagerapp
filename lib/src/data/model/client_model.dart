@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class ClientModel {
+class Client {
   final String name;
   final String phone;
   final String email;
   final String? notes;
   final String? id;
 
-  ClientModel({
+  Client({
     required this.name,
     required this.phone,
     required this.email,
@@ -28,14 +28,14 @@ class ClientModel {
     };
   }
 
-  factory ClientModel.crate({
+  factory Client.crate({
     required String name,
     required String phone,
     required String email,
     String? notes,
   }) {
     String id = const Uuid().v4();
-    return ClientModel(
+    return Client(
       name: name,
       phone: phone,
       email: email,
@@ -44,8 +44,8 @@ class ClientModel {
     );
   }
 
-  factory ClientModel.fromMap(Map<String, dynamic> map) {
-    return ClientModel(
+  factory Client.fromMap(Map<String, dynamic> map) {
+    return Client(
       name: map['name'],
       phone: map['phone'],
       email: map['email'],
@@ -56,6 +56,6 @@ class ClientModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ClientModel.fromJson(String source) =>
-      ClientModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Client.fromJson(String source) =>
+      Client.fromMap(json.decode(source) as Map<String, dynamic>);
 }

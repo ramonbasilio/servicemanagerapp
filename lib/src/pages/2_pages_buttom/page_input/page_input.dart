@@ -1,15 +1,10 @@
-import 'dart:io';
-
-import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/model/client_model.dart';
-import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
-import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
-import 'package:servicemangerapp/src/pages/widgets/cameWidget.dart';
+import 'package:servicemangerapp/src/pages/widgets/cameraWidget.dart';
+import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
 
 class PageInput extends StatefulWidget {
   PageInput({super.key});
@@ -29,22 +24,6 @@ class _PageInputState extends State<PageInput> {
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
-  File? arquivo;
-  List<File> myImages = [];
-
-  showPreview(File file, BuildContext context) async {
-    // final myProvider = Provider.of<CameraProvider>(context, listen: false);
-    // File? arq = await Get.to(() => );
-    // if (arq != null) {
-    //   setState(() {
-    //     for (var x in myProvider.listFileImage) {
-    //       print('Files: $x');
-    //     }
-    //     arquivo = arq;
-    //   });
-    //   Get.back();
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +46,7 @@ class _PageInputState extends State<PageInput> {
                     iconSize: 30,
                     onPressed: () async {
                       clientController.controlAddClientPage.value = true;
-                      ClientModel addClient =
-                          await Get.to(() => PageListClientes());
+                      Client addClient = await Get.to(() => PageListClientes());
                       nameClient.value = addClient.name;
                       phoneClient.value = addClient.phone;
                       emailClient.value = addClient.email;
@@ -117,7 +95,7 @@ class _PageInputState extends State<PageInput> {
                 maxLines: 5,
                 controller: _defectController,
                 decoration:
-                    const InputDecoration(labelText: 'Discrição do defeito'),
+                    const InputDecoration(labelText: 'Descrição do defeito'),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -131,6 +109,30 @@ class _PageInputState extends State<PageInput> {
                 ),
               ),
               const CameraWidget(),
+              const Divider(
+                color: Colors.grey,
+                thickness: 1.5,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Assinatura',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              const Signaturewidget(),
+              const Divider(
+                color: Colors.grey,
+                thickness: 1.5,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Salvar Ordem de Serviço'),
+              ),
             ],
           ),
         ),

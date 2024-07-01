@@ -8,7 +8,7 @@ import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
 import 'package:servicemangerapp/src/pages/widgets/confirmationWidget.dart';
 
 class PageEditClient extends StatefulWidget {
-  ClientModel client;
+  Client client;
   PageEditClient({
     super.key,
     required this.client,
@@ -19,7 +19,7 @@ class PageEditClient extends StatefulWidget {
 }
 
 class _PageEditClientState extends State<PageEditClient> {
-  late final ClientModel _client = widget.client;
+  late final Client _client = widget.client;
   final _formKey = GlobalKey<FormState>();
   ClientsProvider clientController = Get.find();
   late final TextEditingController _nameController;
@@ -45,15 +45,15 @@ class _PageEditClientState extends State<PageEditClient> {
     super.dispose();
   }
 
-  void _salvarCliente()async {
+  void _salvarCliente() async {
     if (_formKey.currentState!.validate()) {
-      ClientModel myClient = ClientModel(
+      Client myClient = Client(
           name: _nameController.text,
           phone: _phoneController.text,
           email: _emailController.text,
           notes: _notesController.text,
           id: _client.id);
-     await clientController.updateClientProvider(client: myClient);
+      await clientController.updateClientProvider(client: myClient);
       Get.back();
     }
   }
@@ -124,7 +124,8 @@ class _PageEditClientState extends State<PageEditClient> {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.red),
                     onPressed: () {
-                      Confirmationwidget().showConfirmationDialog(context,  _client.id!);
+                      Confirmationwidget()
+                          .showConfirmationDialog(context, _client.id!);
                     },
                     child: Text(
                       'Deletar Contato',

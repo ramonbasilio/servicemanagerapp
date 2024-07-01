@@ -5,11 +5,11 @@ import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
 
 class ClientsProvider extends GetxController {
   var controlAddClientPage = false.obs;
-  var allClients = <ClientModel>[].obs;
-  var foundClients = <ClientModel>[].obs;
+  var allClients = <Client>[].obs;
+  var foundClients = <Client>[].obs;
 
   FirebaseRepository _firebaseRepository = FirebaseRepository();
-  
+
   @override
   void onInit() {
     getAllClientsProvider();
@@ -18,7 +18,7 @@ class ClientsProvider extends GetxController {
 
   Future<void> getAllClientsProvider() async {
     allClients.value = [];
-    List<ClientModel> response = await _firebaseRepository.getAllClients();
+    List<Client> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));
     for (var x in response) {
       allClients.add(x);
@@ -26,12 +26,12 @@ class ClientsProvider extends GetxController {
     foundClients.value = allClients;
   }
 
-  Future<void> registerClientProvider({required ClientModel client}) async {
+  Future<void> registerClientProvider({required Client client}) async {
     await _firebaseRepository.registerClient(client: client);
     getAllClientsProvider();
   }
 
-  Future<void> updateClientProvider({required ClientModel client}) async {
+  Future<void> updateClientProvider({required Client client}) async {
     await _firebaseRepository.updateClient(client: client);
     getAllClientsProvider();
   }
@@ -42,7 +42,7 @@ class ClientsProvider extends GetxController {
   }
 
   Future<void> searchClient({required String name}) async {
-    List<ClientModel> result = [];
+    List<Client> result = [];
     if (name.isEmpty) {
       result = allClients;
     } else {

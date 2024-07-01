@@ -5,13 +5,13 @@ import 'package:servicemangerapp/src/data/model/client_model.dart';
 class FirebaseRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late final String? emailUser;                          
+  late final String? emailUser;
 
-   FirebaseRepository() {
-     emailUser = _firebaseAuth.currentUser!.email;
+  FirebaseRepository() {
+    emailUser = _firebaseAuth.currentUser!.email;
   }
 
-  Future<void> registerClient({required ClientModel client}) async {
+  Future<void> registerClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
         .doc(emailUser)
@@ -20,8 +20,8 @@ class FirebaseRepository {
         .set(client.toMap());
   }
 
-  Future<List<ClientModel>> getAllClients() async {
-    List<ClientModel> listClients = [];
+  Future<List<Client>> getAllClients() async {
+    List<Client> listClients = [];
     await _firebaseFirestore
         .collection('User')
         .doc(emailUser)
@@ -29,13 +29,13 @@ class FirebaseRepository {
         .get()
         .then((querySnapshot) {
       for (var docSnapshot in querySnapshot.docs) {
-        listClients.add(ClientModel.fromMap(docSnapshot.data()));
+        listClients.add(Client.fromMap(docSnapshot.data()));
       }
     });
     return listClients;
   }
 
-  Future<void> updateClient({required ClientModel client}) async {
+  Future<void> updateClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
         .doc(emailUser)

@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
 
 class CameraWidget extends StatefulWidget {

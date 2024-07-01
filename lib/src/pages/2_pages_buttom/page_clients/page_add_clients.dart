@@ -20,9 +20,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   ClientsProvider clientController = Get.find();
 
   final phoneMask = MaskTextInputFormatter(
-    initialText: '(##) #####-####',
-    mask: '(##) #####-####');
-
+      initialText: '(##) #####-####', mask: '(##) #####-####');
 
   @override
   void dispose() {
@@ -35,7 +33,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
 
   void _salvarCliente() {
     if (_formKey.currentState!.validate()) {
-      ClientModel myClient = ClientModel.crate(
+      Client myClient = Client.crate(
           name: _nameController.text,
           phone: _phoneController.text,
           email: _emailController.text,
