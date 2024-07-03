@@ -45,7 +45,7 @@ class _SignaturewidgetState extends State<Signaturewidget> {
                     controller.undo();
                   });
                 },
-                child: Text('Desfazer'),
+                child: const Text('Desfazer'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -53,24 +53,40 @@ class _SignaturewidgetState extends State<Signaturewidget> {
                     controller.clear();
                   });
                   widget.dataSign!([]);
-                  
+                  if (controller.isNotEmpty) {
+                    setState(() {
+                      buttomControll = true;
+                    });
+                  } else {
+                    setState(() {
+                      buttomControll = false;
+                    });
+                  }
                 },
-                child: Text('Apagar'),
+                child: const Text('Apagar'),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: buttomControll ? Colors.green : null),
+                    backgroundColor:
+                        buttomControll ? Colors.green : Colors.blueAccent),
                 onPressed: () async {
-                  buttomControll = !buttomControll;
-                  await controller.toPngBytes().then((data) {
-                    if (data != null) {
-                      widget.dataSign!(data);
-                    }
-                  }).then((_) {
-                    setState(() {});
-                  });
+                  if (controller.isNotEmpty) {
+                    buttomControll = !buttomControll;
+                    await controller.toPngBytes().then((data) {
+                      if (data != null) {
+                        widget.dataSign!(data);
+                      }
+                    }).then((_) {
+                      setState(() {});
+                    });
+                  }
                 },
-                child: buttomControll ? Text('Ass. Gravada') : Text('Salvar'),
+                child: buttomControll
+                    ? const Text('Ass. Gravada')
+                    : const Text(
+                        'Salvar',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ],
           ),
