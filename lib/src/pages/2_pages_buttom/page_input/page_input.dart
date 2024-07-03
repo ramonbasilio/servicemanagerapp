@@ -24,6 +24,8 @@ class _PageInputState extends State<PageInput> {
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
+  List<String> listImagePath = [];
+  List<dynamic> listSignData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,13 @@ class _PageInputState extends State<PageInput> {
                   ],
                 ),
               ),
-              const CameraWidget(),
+              CameraWidget(
+                finalReturn: (files) {
+                  for (var x in files) {
+                    listImagePath.add(x);
+                  }
+                },
+              ),
               const Divider(
                 color: Colors.grey,
                 thickness: 1.5,
@@ -124,13 +132,30 @@ class _PageInputState extends State<PageInput> {
                   ],
                 ),
               ),
-              const Signaturewidget(),
+              Signaturewidget(
+                dataSign: (uint8List) {
+                  setState(() {
+                    if (uint8List.isEmpty) {
+                      listSignData.clear();
+                    } else {
+                      for (var x in uint8List) {
+                        listSignData.add(x);
+                      }
+                    }
+                  });
+                },
+              ),
               const Divider(
                 color: Colors.grey,
                 thickness: 1.5,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print('Assinatura: $listSignData');
+                  for (var x in listImagePath) {
+                    print('Path: $x');
+                  }
+                },
                 child: const Text('Salvar Ordem de Serviço'),
               ),
             ],

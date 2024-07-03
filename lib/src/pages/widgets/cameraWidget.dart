@@ -5,7 +5,11 @@ import 'package:get/get.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
 
 class CameraWidget extends StatefulWidget {
-  const CameraWidget({super.key});
+  final Function(List<String>) finalReturn;
+  const CameraWidget({
+    required this.finalReturn,
+    super.key,
+  });
 
   @override
   State<CameraWidget> createState() => _CameraWidgetState();
@@ -15,6 +19,7 @@ class _CameraWidgetState extends State<CameraWidget> {
   File? _image1;
   File? _image2;
   File? _image3;
+  final List<String> _listFiles = List.filled(3, '');
 
   Future showPreview(File file, int containerIndex) async {
     File? arq = await Get.to(
@@ -28,10 +33,16 @@ class _CameraWidgetState extends State<CameraWidget> {
       setState(() {
         if (containerIndex == 1) {
           _image1 = File(arq.path);
+          _listFiles[0] = arq.path;
+          widget.finalReturn(_listFiles);
         } else if (containerIndex == 2) {
           _image2 = File(arq.path);
+          _listFiles[1] = arq.path;
+          widget.finalReturn(_listFiles);
         } else if (containerIndex == 3) {
           _image3 = File(arq.path);
+          _listFiles[2] = arq.path;
+          widget.finalReturn(_listFiles);
         }
       });
     }
@@ -52,10 +63,12 @@ class _CameraWidgetState extends State<CameraWidget> {
       onTap: () async {
         Get.to(
           () => CameraCamera(
-            onFile: (File file) => showPreview(
-              file,
-              containerIndex,
-            ),
+            onFile: (File file) {
+              showPreview(
+                file,
+                containerIndex,
+              );
+            },
           ),
         );
       },
@@ -88,10 +101,16 @@ class _CameraWidgetState extends State<CameraWidget> {
                   setState(() {
                     if (containerIndex == 1) {
                       _image1 = null;
+                      _listFiles[0] = '';
+                      widget.finalReturn(_listFiles);
                     } else if (containerIndex == 2) {
                       _image2 = null;
+                      _listFiles[1] = '';
+                      widget.finalReturn(_listFiles);
                     } else if (containerIndex == 3) {
                       _image3 = null;
+                      _listFiles[2] = '';
+                      widget.finalReturn(_listFiles);
                     }
                   });
                 },

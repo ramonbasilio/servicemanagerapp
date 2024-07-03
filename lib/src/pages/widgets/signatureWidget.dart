@@ -1,18 +1,19 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:signature/signature.dart';
 
 class Signaturewidget extends StatefulWidget {
-  const Signaturewidget({super.key});
+  final Function(List<dynamic>)? dataSign;
+  const Signaturewidget({required this.dataSign, super.key});
 
   @override
   State<Signaturewidget> createState() => _SignaturewidgetState();
 }
 
 class _SignaturewidgetState extends State<Signaturewidget> {
+  bool buttomControll = false;
   SignatureController controller = SignatureController(
-      onDrawEnd: () {
-        print('desenhou...');
-      },
       penStrokeWidth: 1,
       penColor: Colors.black,
       exportBackgroundColor: Colors.white);
@@ -41,14 +42,6 @@ class _SignaturewidgetState extends State<Signaturewidget> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    controller.redo();
-                  });
-                },
-                child: Text('Refazer'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
                     controller.undo();
                   });
                 },
@@ -59,8 +52,25 @@ class _SignaturewidgetState extends State<Signaturewidget> {
                   setState(() {
                     controller.clear();
                   });
+                  widget.dataSign!([]);
+                  
                 },
                 child: Text('Apagar'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: buttomControll ? Colors.green : null),
+                onPressed: () async {
+                  buttomControll = !buttomControll;
+                  await controller.toPngBytes().then((data) {
+                    if (data != null) {
+                      widget.dataSign!(data);
+                    }
+                  }).then((_) {
+                    setState(() {});
+                  });
+                },
+                child: buttomControll ? Text('Ass. Gravada') : Text('Salvar'),
               ),
             ],
           ),
