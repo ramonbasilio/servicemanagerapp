@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 import 'package:servicemangerapp/src/pages/widgets/cameraWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
@@ -151,6 +153,17 @@ class _PageInputState extends State<PageInput> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  ReceiverDoc receiverDoc = ReceiverDoc(
+                    numberDoc: '123',
+                    equipment: _equipmentController.text,
+                    brand: _brandController.text,
+                    model: _modelController.text,
+                    accessories: _accessoriesController.text,
+                    defect: _defectController.text,
+                    pathImages: listImagePath,
+                    pathSign: listSignData,
+                  );
+                  FirebaseCloudFirestore().registerReceiverOrder(receiverDoc: receiverDoc);
                   print('Assinatura: $listSignData');
                   for (var x in listImagePath) {
                     print('Path: $x');

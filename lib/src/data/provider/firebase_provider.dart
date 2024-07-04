@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_final_fields
 import 'package:get/get.dart';
-import 'package:servicemangerapp/src/data/model/client_model.dart';
-import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 
 class ClientsProvider extends GetxController {
   var controlAddClientPage = false.obs;
   var allClients = <Client>[].obs;
   var foundClients = <Client>[].obs;
 
-  FirebaseRepository _firebaseRepository = FirebaseRepository();
+  FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
 
   @override
   void onInit() {

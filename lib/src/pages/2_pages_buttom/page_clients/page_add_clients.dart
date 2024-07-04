@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 
 class ClienteCadastroPage extends StatefulWidget {

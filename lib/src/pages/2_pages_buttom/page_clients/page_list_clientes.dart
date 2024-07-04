@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
-import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_add_clients.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit_client.dart';
 

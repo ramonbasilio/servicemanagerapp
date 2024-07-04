@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
-import 'package:servicemangerapp/src/data/repository/firebase_repository.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 import 'package:servicemangerapp/src/pages/widgets/confirmationWidget.dart';
 
 class PageEditClient extends StatefulWidget {

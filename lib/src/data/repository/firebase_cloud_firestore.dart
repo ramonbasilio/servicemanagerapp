@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:servicemangerapp/src/data/model/client_model.dart';
+import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 
-class FirebaseRepository {
+class FirebaseCloudFirestore {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late final String? emailUser;
 
-  FirebaseRepository() {
+  FirebaseCloudFirestore() {
     emailUser = _firebaseAuth.currentUser!.email;
   }
 
@@ -51,5 +52,14 @@ class FirebaseRepository {
         .collection('Clients')
         .doc(id)
         .delete();
+  }
+
+  Future<void> registerReceiverOrder({required ReceiverDoc receiverDoc}) async {
+    await _firebaseFirestore
+        .collection('User')
+        .doc(emailUser)
+        .collection('Receiver Document')
+        .doc(receiverDoc.numberDoc)
+        .set(receiverDoc.toMap());
   }
 }
