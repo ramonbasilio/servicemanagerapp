@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_storage.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 import 'package:servicemangerapp/src/pages/widgets/cameraWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
+import 'package:servicemangerapp/src/utils/utils.dart';
 
 class PageInput extends StatefulWidget {
   const PageInput({super.key});
@@ -21,68 +24,85 @@ class _PageInputState extends State<PageInput> {
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
   ClientsProvider clientController = Get.find();
+  Firebasetorage firebasetorage = Get.put(Firebasetorage());
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
   List<String> listImagePath = [];
-  List<dynamic> listSignData = [];
+  List<int> listSignData = [];
   final _formKey = GlobalKey<FormState>();
   var validateClientControll = false.obs;
   var validateSignControll = false.obs;
+  int? numberServiceOrder;
+  Client? addClient;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Entrada de Equipamento'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                bool validate1 = false;
-                bool validate2 = false;
-                bool validate3 = false;
-                if (_formKey.currentState!.validate()) {
-                  validate1 = true;
-                }
+    numberServiceOrder = Utils.gerenateNumerServiceOrder();
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          title: const Text('Entrada de Equipamento'),
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  bool validate1 = false;
+                  bool validate2 = false;
+                  bool validate3 = false;
+                  if (_formKey.currentState!.validate()) {
+                    validate1 = true;
+                  }
 
-                if (nameClient.isEmpty) {
-                  validateClientControll.value = true;
-                } else {
-                  validate2 = true;
-                  validateClientControll.value = false;
-                }
-                if (listSignData.isEmpty) {
-                  validateSignControll.value = true;
-                } else {
-                  validate3 = true;
-                  validateSignControll.value = false;
-                }
-                if (validate1 && validate2 && validate3) {
-                  ReceiverDoc receiverDoc = ReceiverDoc(
-                    numberDoc: '123',
-                    equipment: _equipmentController.text,
-                    brand: _brandController.text,
-                    model: _modelController.text,
-                    accessories: _accessoriesController.text,
-                    defect: _defectController.text,
-                    pathImages: listImagePath,
-                    pathSign: listSignData,
-                  );
-                  // FirebaseCloudFirestore()
-                  //     .registerReceiverOrder(receiverDoc: receiverDoc);
-                }
-              },
-              icon: const Icon(Icons.save))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Obx(
-            () => Container(
+                  if (nameClient.isEmpty) {
+                    validateClientControll.value = true;
+                  } else {
+                    validate2 = true;
+                    validateClientControll.value = false;
+                  }
+                  if (listSignData.isEmpty) {
+                    validateSignControll.value = true;
+                  } else {
+                    validate3 = true;
+                    validateSignControll.value = false;
+                  }
+                  if (validate1 && validate2 && validate3) {
+                    ReceiverDoc receiverDoc = ReceiverDoc(
+                      client: addClient!,
+                      numberDoc: numberServiceOrder!.toString(),
+                      equipment: _equipmentController.text,
+                      brand: _brandController.text,
+                      model: _modelController.text,
+                      accessories: _accessoriesController.text,
+                      defect: _defectController.text,
+                      pathImages: firebasetorage.getListImages,
+                      pathSign: firebasetorage.getPathSign.value,
+                    );
+                    print(listImagePath[0]);
+                    await Firebasetorage().uploadImage(
+                      pathList: listImagePath,
+                      receiverDoc: receiverDoc,
+                      signList: listSignData,
+                    );
+                    FirebaseCloudFirestore()
+                        .registerReceiverOrder(receiverDoc: receiverDoc);
+                  }
+                },
+                icon: const Icon(Icons.save))
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Container(
               margin: const EdgeInsets.all(20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Text(
+                    'Ordem de Serviço: $numberServiceOrder',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       const Text(
@@ -93,11 +113,10 @@ class _PageInputState extends State<PageInput> {
                         iconSize: 30,
                         onPressed: () async {
                           clientController.controlAddClientPage.value = true;
-                          Client addClient =
-                              await Get.to(() => PageListClientes());
-                          nameClient.value = addClient.name;
-                          phoneClient.value = addClient.phone;
-                          emailClient.value = addClient.email;
+                          addClient = await Get.to(() => PageListClientes());
+                          nameClient.value = addClient!.name;
+                          phoneClient.value = addClient!.phone;
+                          emailClient.value = addClient!.email;
                           clientController.controlAddClientPage.value = false;
                           validateClientControll.value = false;
                         },

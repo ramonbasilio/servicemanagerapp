@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:signature/signature.dart';
 
 class Signaturewidget extends StatefulWidget {
-  final Function(List<dynamic>)? dataSign;
+  final Function(List<int>)? dataSign;
   const Signaturewidget({required this.dataSign, super.key});
 
   @override
@@ -79,6 +79,8 @@ class _SignaturewidgetState extends State<Signaturewidget> {
                     }).then((_) {
                       setState(() {});
                     });
+                  } else {
+                    buttomControll = true;
                   }
                 },
                 child: buttomControll
