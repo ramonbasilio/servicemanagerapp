@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:servicemangerapp/src/data/provider/camera_provider.dart';
+import 'package:servicemangerapp/src/data/provider/provider.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_storage.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -12,7 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(ChangeNotifierProvider(
-    create: (context) => CameraProvider(),
+    create: (context) => Firebasetorage(),
     child:  MyApp()));
 }
 

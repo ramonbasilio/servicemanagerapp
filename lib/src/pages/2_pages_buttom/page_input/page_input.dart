@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
@@ -39,8 +40,9 @@ class _PageInputState extends State<PageInput> {
   @override
   Widget build(BuildContext context) {
     numberServiceOrder = Utils.gerenateNumerServiceOrder();
-    return Obx(
-      () => Scaffold(
+
+    return Consumer<Firebasetorage>(
+      builder: (context, value, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Entrada de Equipamento'),
           actions: [
@@ -66,6 +68,15 @@ class _PageInputState extends State<PageInput> {
                     validateSignControll.value = false;
                   }
                   if (validate1 && validate2 && validate3) {
+                    await Firebasetorage().uploadImage(
+                      pathList: listImagePath,
+                      signList: listSignData,
+                      clientId: addClient!.id!,
+                      numberDoc: numberServiceOrder!.toString(),
+                      clientName: addClient!.name,
+                    );
+                    print('URL: ${value.urlDownloadSign}');
+                    print('URL: ${value.listFileImage}');
                     ReceiverDoc receiverDoc = ReceiverDoc(
                       client: addClient!,
                       numberDoc: numberServiceOrder!.toString(),
@@ -74,20 +85,14 @@ class _PageInputState extends State<PageInput> {
                       model: _modelController.text,
                       accessories: _accessoriesController.text,
                       defect: _defectController.text,
-                      pathImages: firebasetorage.getListImages,
-                      pathSign: firebasetorage.getPathSign.value,
+                      pathImages: value.listFileImage,
+                      pathSign: value.urlDownloadSign,
                     );
-                    print(listImagePath[0]);
-                    await Firebasetorage().uploadImage(
-                      pathList: listImagePath,
-                      receiverDoc: receiverDoc,
-                      signList: listSignData,
-                    );
-                    FirebaseCloudFirestore()
+                    await FirebaseCloudFirestore()
                         .registerReceiverOrder(receiverDoc: receiverDoc);
                   }
                 },
-                icon: const Icon(Icons.save))
+                icon: const Icon(Icons.save)),
           ],
         ),
         body: SingleChildScrollView(
@@ -137,14 +142,16 @@ class _PageInputState extends State<PageInput> {
                         color: Colors.grey.shade200),
                     height: 100,
                     width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('Nome: ${nameClient.value}'),
-                        Text('Telefone: ${phoneClient.value}'),
-                        Text('Email: ${emailClient.value}')
-                      ],
+                    child: Obx(
+                      () => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Nome: ${nameClient.value}'),
+                          Text('Telefone: ${phoneClient.value}'),
+                          Text('Email: ${emailClient.value}')
+                        ],
+                      ),
                     ),
                   ),
                   TextFormField(

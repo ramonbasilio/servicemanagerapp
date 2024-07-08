@@ -1,59 +1,67 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:flutter/material.dart';
 import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 
-class Firebasetorage extends GetxController {
-  var getListImages = <String>[].obs;
-  var getPathSign = ''.obs;
+class Firebasetorage extends ChangeNotifier {
+  String _urlDownloadSign = '';
+  String get urlDownloadSign => _urlDownloadSign;
+
+  final List<String> _listFileImage = [];
+  List<String> get listFileImage => _listFileImage;
+
   final _firebaseStorage = FirebaseStorage.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late final String? emailUser;
+  late final String? _emailUser;
 
   Firebasetorage() {
-    emailUser = _firebaseAuth.currentUser!.email;
+    _emailUser = _firebaseAuth.currentUser!.email;
   }
 
-  Future<void> uploadImage({
-    required List<String> pathList,
-    required List<int> signList,
-    required ReceiverDoc receiverDoc,
-  }) async {
+  Future<void> uploadImage(
+      {required List<String> pathList,
+      required List<int> signList,
+      required String clientId,
+      required String numberDoc,
+      required String clientName}) async {
     Uint8List uint8List = Uint8List.fromList(signList);
-    List<String> listImages = [];
-    String? pathSig;
 
     try {
-      pathSig =
-          '/$emailUser/${receiverDoc.client.id}/${receiverDoc.numberDoc}/sign/sign-${receiverDoc.client.name}.jpg';
-      Reference myRef = _firebaseStorage.ref().child(pathSig);
-      myRef.putData(uint8List);
-      getPathSign.value = pathSig;
-      print('salvou');
+      Reference myRef = _firebaseStorage
+          .ref()
+          .child('/$_emailUser/$clientId/$numberDoc/sign/sign-$clientName.jpg');
+      await myRef.putData(uint8List);
+      _urlDownloadSign = await myRef.getDownloadURL();
+      print('URL: $_urlDownloadSign');
+      notifyListeners();
     } on FirebaseException catch (e) {
-      print('Erro ao salvar imagem: $e');
+      print('Erro ao salvar assinatura: $e');
     }
+    notifyListeners();
 
     for (var path in pathList) {
       if (path.isNotEmpty) {
         File file = File(path);
         String nameFile = path.split('/').last;
         try {
-          Reference myRef = _firebaseStorage.ref().child(
-              '/$emailUser/${receiverDoc.client.id}/${receiverDoc.numberDoc}/images/$nameFile');
-          myRef.putFile(file);
-          listImages.add(
-              '/$emailUser/${receiverDoc.client.id}/${receiverDoc.numberDoc}/images/$nameFile');
-          print('salvou');
+          Reference myRef = _firebaseStorage
+              .ref()
+              .child('/$_emailUser/$clientId/$numberDoc/images/$nameFile');
+          await myRef.putFile(file);
+          String temp = await myRef.getDownloadURL();
+          _listFileImage.add(temp);
+          _listFileImage.forEach((x) {
+            print(x);
+          });
+          notifyListeners();
         } on FirebaseException catch (e) {
-          print('Erro ao salvar imagem: $e');
+          print('Erro ao salvar imagens: $e');
         }
+        notifyListeners();
       }
-      getListImages.value = listImages;
     }
+    notifyListeners();
   }
 }
