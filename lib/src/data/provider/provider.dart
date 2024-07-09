@@ -15,10 +15,7 @@ class MyProvider extends ChangeNotifier {
     return listPathImages;
   }
 
-    String getUrl() {
+  String getUrl() {
     return urlDownload;
   }
 }
-
-  // String _urlDownload = '';
-  // String get urlDownload => _urlDownload;

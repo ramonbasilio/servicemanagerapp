@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicemangerapp/src/alerts/alerts_auth.dart';
+import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-in/page_sign-in.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_init.dart';
 
@@ -28,7 +28,7 @@ class FireAuth {
       print('Finalizado!');
       Get.back();
       if (context.mounted) {
-        AlertsAuth.snackBarMessageFirebaseAuth(
+        AlertsDialog.snackBarMessageFirebaseAuth(
           context,
           messageOpcional: 'Cadastrado realizado com sucesso!',
           colorMessage: Colors.green,
@@ -37,7 +37,7 @@ class FireAuth {
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
         print('Erro: ${e.code}');
-        AlertsAuth.snackBarMessageFirebaseAuth(context, error: e);
+        AlertsDialog.snackBarMessageFirebaseAuth(context, error: e);
       }
     }
   }
@@ -55,7 +55,7 @@ class FireAuth {
         password: password,
       );
       if (context.mounted) {
-        AlertsAuth.snackBarMessageFirebaseAuth(context,
+        AlertsDialog.snackBarMessageFirebaseAuth(context,
             messageOpcional: 'Login realizado com sucesso!',
             colorMessage: Colors.green);
         Get.off(() => const PageInit());
@@ -63,7 +63,7 @@ class FireAuth {
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
-        AlertsAuth.snackBarMessageFirebaseAuth(
+        AlertsDialog.snackBarMessageFirebaseAuth(
           context,
           error: e,
         );
@@ -75,7 +75,7 @@ class FireAuth {
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.signOut();
     if (context.mounted) {
-      AlertsAuth.snackBarMessageFirebaseAuth(
+      AlertsDialog.snackBarMessageFirebaseAuth(
         context,
         messageOpcional: 'Usuário desconectado',
         colorMessage: Colors.blueAccent,
@@ -91,7 +91,7 @@ class FireAuth {
     try {
       await auth.sendPasswordResetEmail(email: email);
       if (context.mounted) {
-        AlertsAuth.snackBarMessageFirebaseAuth(
+        AlertsDialog.snackBarMessageFirebaseAuth(
           context,
           messageOpcional: 'Email enviado com sucesso',
           colorMessage: Colors.green,
@@ -100,7 +100,7 @@ class FireAuth {
       }
     } on FirebaseAuthException catch (_) {
       if (context.mounted) {
-        AlertsAuth.snackBarMessageFirebaseAuth(
+        AlertsDialog.snackBarMessageFirebaseAuth(
           context,
           messageOpcional: 'Falha ao resetar a senha',
           colorMessage: Colors.redAccent,

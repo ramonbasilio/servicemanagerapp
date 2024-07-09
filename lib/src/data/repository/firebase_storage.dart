@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
 import 'package:servicemangerapp/src/data/provider/provider.dart';
 
 class Firebasetorage {
@@ -39,9 +38,7 @@ class Firebasetorage {
       } on FirebaseException catch (e) {
         print('Erro ao salvar assinatura: $e');
       }
-      pathList.forEach((x) {
-        print('imprindo cada elemento dentro da class: $x');
-      });
+
       for (var path in pathList) {
         if (path.isEmpty) {
           listString.add('');

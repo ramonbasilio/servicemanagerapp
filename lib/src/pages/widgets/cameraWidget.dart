@@ -94,7 +94,7 @@ class _CameraWidgetState extends State<CameraWidget> {
                         ));
                   }
                 },
-                icon: Icon(Icons.fullscreen),
+                icon: const Icon(Icons.fullscreen),
               ),
               IconButton(
                 onPressed: () async {
@@ -114,7 +114,7 @@ class _CameraWidgetState extends State<CameraWidget> {
                     }
                   });
                 },
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
               ),
             ],
           )

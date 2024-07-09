@@ -34,6 +34,7 @@ class _PageInputState extends State<PageInput> {
   List<String> listImagePathURL = [];
   List<int> listSignData = [];
   final _formKey = GlobalKey<FormState>();
+  var loadControll = false.obs;
   var validateClientControll = false.obs;
   var validateSignControll = false.obs;
   int? numberServiceOrder;
@@ -48,53 +49,60 @@ class _PageInputState extends State<PageInput> {
       appBar: AppBar(
         title: const Text('Entrada de Equipamento'),
         actions: [
-          IconButton(
-            onPressed: () async {
-              bool validate1 = false;
-              bool validate2 = false;
-              bool validate3 = false;
-              if (_formKey.currentState!.validate()) {
-                validate1 = true;
-              }
-
-              if (nameClient.isEmpty) {
-                validateClientControll.value = true;
-              } else {
-                validate2 = true;
-                validateClientControll.value = false;
-              }
-              if (listSignData.isEmpty) {
-                validateSignControll.value = true;
-              } else {
-                validate3 = true;
-                validateSignControll.value = false;
-              }
-              if (validate1 && validate2 && validate3) {
-                await Firebasetorage().uploadImage(
-                    pathList: listImagePath,
-                    signList: listSignData,
-                    clientId: addClient!.id!,
+          Obx( () =>
+            TextButton(
+              onPressed: () async {
+                bool validate1 = false;
+                bool validate2 = false;
+                bool validate3 = false;
+                if (_formKey.currentState!.validate()) {
+                  validate1 = true;
+                }
+            
+                if (nameClient.isEmpty) {
+                  validateClientControll.value = true;
+                } else {
+                  validate2 = true;
+                  validateClientControll.value = false;
+                }
+                if (listSignData.isEmpty) {
+                  validateSignControll.value = true;
+                } else {
+                  validate3 = true;
+                  validateSignControll.value = false;
+                }
+                if (validate1 && validate2 && validate3) {
+                  loadControll.value = true;
+                  await Firebasetorage().uploadImage(
+                      pathList: listImagePath,
+                      signList: listSignData,
+                      clientId: addClient!.id!,
+                      numberDoc: numberServiceOrder!.toString(),
+                      clientName: addClient!.name,
+                      context: context);
+            
+                  ReceiverDoc receiverDoc = ReceiverDoc(
+                    client: addClient!,
                     numberDoc: numberServiceOrder!.toString(),
-                    clientName: addClient!.name,
-                    context: context);
-                if (context.mounted) {}
-
-                ReceiverDoc receiverDoc = ReceiverDoc(
-                  client: addClient!,
-                  numberDoc: numberServiceOrder!.toString(),
-                  equipment: _equipmentController.text,
-                  brand: _brandController.text,
-                  model: _modelController.text,
-                  accessories: _accessoriesController.text,
-                  defect: _defectController.text,
-                  pathImages: value.getList(),
-                  pathSign: value.getUrl(),
-                );
-                await FirebaseCloudFirestore()
-                    .registerReceiverOrder(receiverDoc: receiverDoc);
-              }
-            },
-            icon: const Icon(Icons.save),
+                    equipment: _equipmentController.text,
+                    brand: _brandController.text,
+                    model: _modelController.text,
+                    accessories: _accessoriesController.text,
+                    defect: _defectController.text,
+                    pathImages: value.getList(),
+                    pathSign: value.getUrl(),
+                  );
+                  if (context.mounted) {
+                    await FirebaseCloudFirestore().registerReceiverOrder(
+                      receiverDoc: receiverDoc,
+                      context: context,
+                    );
+                  }
+                  loadControll.value = false;;
+                }
+              },
+              child: loadControll.value ? CircularProgressIndicator() : Icon(Icons.save),
+            ),
           ),
         ],
       ),

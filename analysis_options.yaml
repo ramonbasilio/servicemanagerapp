@@ -9,6 +9,7 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
+    file_names: ignore
     must_be_immutable: ignore
     unused_field: ignore
 include: package:flutter_lints/flutter.yaml

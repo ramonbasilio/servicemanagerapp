@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AlertsAuth {
+class AlertsDialog {
   static void snackBarMessageFirebaseAuth(
     BuildContext context, {
     FirebaseAuthException? error,
