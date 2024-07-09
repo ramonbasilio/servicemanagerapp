@@ -1,13 +1,24 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-class CameraProvider extends ChangeNotifier {
-  final List<File> _listFileImage = [];
-  List<File> get listFileImage => _listFileImage;
+class MyProvider extends ChangeNotifier {
+  List<String> listPathImages = [];
+  String urlDownload = '';
 
-
-  void addFile(File file) {
-    _listFileImage.add(file);
+  void addPathList(List<String> list, String url) {
+    listPathImages = list;
+    urlDownload = url;
     notifyListeners();
   }
+
+  List<String> getList() {
+    return listPathImages;
+  }
+
+    String getUrl() {
+    return urlDownload;
+  }
 }
+
+  // String _urlDownload = '';
+  // String get urlDownload => _urlDownload;

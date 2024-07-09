@@ -13,7 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(ChangeNotifierProvider(
-    create: (context) => Firebasetorage(),
+    create: (context) => MyProvider(),
     child:  MyApp()));
 }
 
