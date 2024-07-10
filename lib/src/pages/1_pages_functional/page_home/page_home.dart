@@ -4,6 +4,7 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_input.dart';
 import 'package:servicemangerapp/src/pages/widgets/buttomHomePageWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/statusServiceWidget.dart';
+import 'package:servicemangerapp/src/utils/utils.dart';
 
 class PageHome extends StatelessWidget {
   const PageHome({super.key});
@@ -44,17 +45,20 @@ class PageHome extends StatelessWidget {
                 ),
                 ButtomHomePageWidget(
                   func: (() {
-                    Get.to(()=> PageInput());
+                    int numberServiceOrder = Utils.gerenateNumerServiceOrder();
+                    Get.to(() => PageInput(
+                          numberServiceOrder: numberServiceOrder,
+                        ));
                   }),
-                  nameButtom: 'Entrada',
+                  nameButtom: 'Criar Ordem de Serviço',
                 ),
                 ButtomHomePageWidget(
                   func: (() {}),
-                  nameButtom: 'Ordem de Serviços',
+                  nameButtom: 'Minhas Ordens de Serviço',
                 ),
                 ButtomHomePageWidget(
                   func: (() {}),
-                  nameButtom: 'Saída',
+                  nameButtom: 'Orçamentos',
                 ),
               ],
             ),

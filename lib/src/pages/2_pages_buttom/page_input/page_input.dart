@@ -13,7 +13,8 @@ import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
 import 'package:servicemangerapp/src/utils/utils.dart';
 
 class PageInput extends StatefulWidget {
-  const PageInput({super.key});
+  int numberServiceOrder;
+  PageInput({required this.numberServiceOrder, super.key});
 
   @override
   State<PageInput> createState() => _PageInputState();
@@ -47,10 +48,10 @@ class _PageInputState extends State<PageInput> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entrada de Equipamento'),
+        title: Text('Ordem de Serviço ${widget.numberServiceOrder}'),
         actions: [
-          Obx( () =>
-            TextButton(
+          Obx(
+            () => TextButton(
               onPressed: () async {
                 bool validate1 = false;
                 bool validate2 = false;
@@ -58,7 +59,7 @@ class _PageInputState extends State<PageInput> {
                 if (_formKey.currentState!.validate()) {
                   validate1 = true;
                 }
-            
+
                 if (nameClient.isEmpty) {
                   validateClientControll.value = true;
                 } else {
@@ -80,7 +81,7 @@ class _PageInputState extends State<PageInput> {
                       numberDoc: numberServiceOrder!.toString(),
                       clientName: addClient!.name,
                       context: context);
-            
+
                   ReceiverDoc receiverDoc = ReceiverDoc(
                     client: addClient!,
                     numberDoc: numberServiceOrder!.toString(),
@@ -98,10 +99,12 @@ class _PageInputState extends State<PageInput> {
                       context: context,
                     );
                   }
-                  loadControll.value = false;;
+                  loadControll.value = false;
                 }
               },
-              child: loadControll.value ? CircularProgressIndicator() : Icon(Icons.save),
+              child: loadControll.value
+                  ? const CircularProgressIndicator()
+                  : const Icon(Icons.save),
             ),
           ),
         ],
@@ -114,11 +117,6 @@ class _PageInputState extends State<PageInput> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'Ordem de Serviço: $numberServiceOrder',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
                 Row(
                   children: [
                     const Text(
