@@ -13,17 +13,18 @@ class PageListClientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    clientController.getAllClientsProvider();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Clientes'),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Get.to(() => const ClienteCadastroPage());
-        },
-      ),
+      floatingActionButton: Obx(() => !clientController.controlAddClientPage.value ? FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Get.to(() => const ClienteCadastroPage());
+            },
+          ) : SizedBox.fromSize()),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -65,7 +66,8 @@ class PageListClientes extends StatelessWidget {
                                 onTap: () {
                                   if (clientController
                                       .controlAddClientPage.value) {
-                                    Get.back(result: clientController
+                                    Get.back(
+                                        result: clientController
                                             .foundClients[index]);
                                   } else {
                                     Get.to(() => PageEditClient(

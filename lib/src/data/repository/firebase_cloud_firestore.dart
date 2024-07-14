@@ -10,31 +10,28 @@ import 'package:servicemangerapp/src/pages/1_pages_functional/page_home/page_hom
 class FirebaseCloudFirestore {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late final String? emailUser;
-
-  FirebaseCloudFirestore() {
-    emailUser = _firebaseAuth.currentUser!.email;
-  }
 
   Future<void> registerClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(emailUser)
+        .doc( _firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(client.id)
         .set(client.toMap());
   }
 
   Future<List<Client>> getAllClients() async {
+    print('chamou o getAllClients');
     List<Client> listClients = [];
     await _firebaseFirestore
         .collection('User')
-        .doc(emailUser)
+        .doc(_firebaseAuth.currentUser!.email)
         .collection('Clients')
         .get()
         .then((querySnapshot) {
       for (var docSnapshot in querySnapshot.docs) {
         listClients.add(Client.fromMap(docSnapshot.data()));
+        print('getAllClients ${_firebaseAuth.currentUser!.email}: ${docSnapshot.data()}');
       }
     });
     return listClients;
@@ -43,7 +40,7 @@ class FirebaseCloudFirestore {
   Future<void> updateClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(emailUser)
+        .doc( _firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(client.id)
         .update(client.toMap());
@@ -52,7 +49,7 @@ class FirebaseCloudFirestore {
   Future<void> deleteClient({required String id}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc(emailUser)
+        .doc( _firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(id)
         .delete();
@@ -63,7 +60,7 @@ class FirebaseCloudFirestore {
     try {
       await _firebaseFirestore
           .collection('User')
-          .doc(emailUser)
+          .doc( _firebaseAuth.currentUser!.email)
           .collection('Receiver Document')
           .doc(receiverDoc.numberDoc)
           .set(receiverDoc.toMap());

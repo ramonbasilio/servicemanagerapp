@@ -128,11 +128,13 @@ class _PageInputState extends State<PageInput> {
                       onPressed: () async {
                         clientController.controlAddClientPage.value = true;
                         addClient = await Get.to(() => PageListClientes());
-                        nameClient.value = addClient!.name;
-                        phoneClient.value = addClient!.phone;
-                        emailClient.value = addClient!.email;
-                        clientController.controlAddClientPage.value = false;
-                        validateClientControll.value = false;
+                        if (addClient != null) {
+                          nameClient.value = addClient!.name;
+                          phoneClient.value = addClient!.phone;
+                          emailClient.value = addClient!.email;
+                          validateClientControll.value = false;
+                        }
+                          clientController.controlAddClientPage.value = false;
                       },
                       icon: const Icon(Icons.add),
                     ),

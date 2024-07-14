@@ -5,7 +5,6 @@ import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-in/page_sign-in.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_init.dart';
 
-
 class FireAuth {
   static Future<void> registerUsignEmailPassword({
     required String name,
@@ -59,7 +58,6 @@ class FireAuth {
             messageOpcional: 'Login realizado com sucesso!',
             colorMessage: Colors.green);
         Get.off(() => const PageInit());
-
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
@@ -73,6 +71,7 @@ class FireAuth {
 
   static Future<void> signOut({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
+    print('email deslogado: ${auth.currentUser!.email}');
     await auth.signOut();
     if (context.mounted) {
       AlertsDialog.snackBarMessageFirebaseAuth(

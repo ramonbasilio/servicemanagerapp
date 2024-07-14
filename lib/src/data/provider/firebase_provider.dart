@@ -10,11 +10,12 @@ class ClientsProvider extends GetxController {
 
   FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
 
-  @override
-  void onInit() {
-    getAllClientsProvider();
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   print('chamou...');
+  //   getAllClientsProvider();
+  //   super.onInit();
+  // }
 
   Future<void> getAllClientsProvider() async {
     allClients.value = [];
