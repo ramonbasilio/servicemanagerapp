@@ -17,7 +17,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _notesController = TextEditingController();
-  ClientsProvider clientController = Get.find();
+  ManagerProvider clientController = Get.find();
 
   final phoneMask = MaskTextInputFormatter(
       initialText: '(##) #####-####', mask: '(##) #####-####');

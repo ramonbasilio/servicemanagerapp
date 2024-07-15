@@ -21,7 +21,7 @@ class PageEditClient extends StatefulWidget {
 class _PageEditClientState extends State<PageEditClient> {
   late final Client _client = widget.client;
   final _formKey = GlobalKey<FormState>();
-  ClientsProvider clientController = Get.find();
+  ManagerProvider clientController = Get.find();
   late final TextEditingController _nameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _emailController;

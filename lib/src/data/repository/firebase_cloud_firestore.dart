@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
-import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
+import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_home/page_home.dart';
 
 class FirebaseCloudFirestore {
@@ -14,14 +14,13 @@ class FirebaseCloudFirestore {
   Future<void> registerClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc( _firebaseAuth.currentUser!.email)
+        .doc(_firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(client.id)
         .set(client.toMap());
   }
 
   Future<List<Client>> getAllClients() async {
-    print('chamou o getAllClients');
     List<Client> listClients = [];
     await _firebaseFirestore
         .collection('User')
@@ -31,7 +30,8 @@ class FirebaseCloudFirestore {
         .then((querySnapshot) {
       for (var docSnapshot in querySnapshot.docs) {
         listClients.add(Client.fromMap(docSnapshot.data()));
-        print('getAllClients ${_firebaseAuth.currentUser!.email}: ${docSnapshot.data()}');
+        print(
+            'getAllClients ${_firebaseAuth.currentUser!.email}: ${docSnapshot.data()}');
       }
     });
     return listClients;
@@ -40,7 +40,7 @@ class FirebaseCloudFirestore {
   Future<void> updateClient({required Client client}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc( _firebaseAuth.currentUser!.email)
+        .doc(_firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(client.id)
         .update(client.toMap());
@@ -49,19 +49,20 @@ class FirebaseCloudFirestore {
   Future<void> deleteClient({required String id}) async {
     await _firebaseFirestore
         .collection('User')
-        .doc( _firebaseAuth.currentUser!.email)
+        .doc(_firebaseAuth.currentUser!.email)
         .collection('Clients')
         .doc(id)
         .delete();
   }
 
   Future<void> registerReceiverOrder(
-      {required ReceiverDoc receiverDoc, required BuildContext context}) async {
+      {required ServiceOrder receiverDoc,
+      required BuildContext context}) async {
     try {
       await _firebaseFirestore
           .collection('User')
-          .doc( _firebaseAuth.currentUser!.email)
-          .collection('Receiver Document')
+          .doc(_firebaseAuth.currentUser!.email)
+          .collection('Service Order')
           .doc(receiverDoc.numberDoc)
           .set(receiverDoc.toMap());
       if (context.mounted) {
@@ -76,6 +77,27 @@ class FirebaseCloudFirestore {
         AlertsDialog.snackBarMessageFirebaseAuth(context,
             messageOpcional: 'Falha ao salvar!', colorMessage: Colors.red);
       }
+    }
+  }
+
+  Future<List<ServiceOrder>?> getAllServiceOrders() async {
+    List<ServiceOrder> listServiceOrder = [];
+    try {
+      await _firebaseFirestore
+          .collection('User')
+          .doc(_firebaseAuth.currentUser!.email)
+          .collection('Service Order')
+          .get()
+          .then((querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          listServiceOrder.add(ServiceOrder.fromMap(docSnapshot.data()));
+          print('ServiceOrder: ${docSnapshot.data()}');
+        }
+      });
+      return listServiceOrder;
+    } on FirebaseException catch (e) {
+      print(e);
+      return null;
     }
   }
 }

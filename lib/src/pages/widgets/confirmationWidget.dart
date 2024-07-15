@@ -5,7 +5,7 @@ import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_ini
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 
 class Confirmationwidget {
-  ClientsProvider clientController = Get.find();
+  ManagerProvider clientController = Get.find();
   Future<void> showConfirmationDialog(BuildContext context, String id) async {
     return showDialog<void>(
         context: context,

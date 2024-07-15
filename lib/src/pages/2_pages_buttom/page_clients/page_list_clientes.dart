@@ -9,7 +9,7 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit
 
 class PageListClientes extends StatelessWidget {
   PageListClientes({super.key});
-  ClientsProvider clientController = Get.find();
+  ManagerProvider clientController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,15 @@ class PageListClientes extends StatelessWidget {
         centerTitle: true,
         title: const Text('Clientes'),
       ),
-      floatingActionButton: Obx(() => !clientController.controlAddClientPage.value ? FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              Get.to(() => const ClienteCadastroPage());
-            },
-          ) : SizedBox.fromSize()),
+      floatingActionButton:
+          Obx(() => !clientController.controlAddClientPage.value
+              ? FloatingActionButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () {
+                    Get.to(() => const ClienteCadastroPage());
+                  },
+                )
+              : SizedBox.fromSize()),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

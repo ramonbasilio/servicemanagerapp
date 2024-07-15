@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
-import 'package:servicemangerapp/src/data/model/receiver_doc.dart';
+import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/data/provider/provider.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
@@ -12,21 +12,21 @@ import 'package:servicemangerapp/src/pages/widgets/cameraWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
 import 'package:servicemangerapp/src/utils/utils.dart';
 
-class PageInput extends StatefulWidget {
+class PageMakeServiceOrder extends StatefulWidget {
   int numberServiceOrder;
-  PageInput({required this.numberServiceOrder, super.key});
+  PageMakeServiceOrder({required this.numberServiceOrder, super.key});
 
   @override
-  State<PageInput> createState() => _PageInputState();
+  State<PageMakeServiceOrder> createState() => _PageMakeServiceOrderState();
 }
 
-class _PageInputState extends State<PageInput> {
+class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   final TextEditingController _equipmentController = TextEditingController();
   final TextEditingController _brandController = TextEditingController();
   final TextEditingController _modelController = TextEditingController();
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
-  ClientsProvider clientController = Get.find();
+  ManagerProvider clientController = Get.find();
   Firebasetorage firebasetorage = Get.put(Firebasetorage());
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
@@ -38,12 +38,10 @@ class _PageInputState extends State<PageInput> {
   var loadControll = false.obs;
   var validateClientControll = false.obs;
   var validateSignControll = false.obs;
-  int? numberServiceOrder;
   Client? addClient;
 
   @override
   Widget build(BuildContext context) {
-    numberServiceOrder = Utils.gerenateNumerServiceOrder();
     MyProvider value = Provider.of<MyProvider>(context, listen: false);
 
     return Scaffold(
@@ -78,13 +76,13 @@ class _PageInputState extends State<PageInput> {
                       pathList: listImagePath,
                       signList: listSignData,
                       clientId: addClient!.id!,
-                      numberDoc: numberServiceOrder!.toString(),
+                      numberDoc: widget.numberServiceOrder.toString(),
                       clientName: addClient!.name,
                       context: context);
 
-                  ReceiverDoc receiverDoc = ReceiverDoc(
+                  ServiceOrder receiverDoc = ServiceOrder(
                     client: addClient!,
-                    numberDoc: numberServiceOrder!.toString(),
+                    numberDoc: widget.numberServiceOrder.toString(),
                     equipment: _equipmentController.text,
                     brand: _brandController.text,
                     model: _modelController.text,
@@ -134,7 +132,7 @@ class _PageInputState extends State<PageInput> {
                           emailClient.value = addClient!.email;
                           validateClientControll.value = false;
                         }
-                          clientController.controlAddClientPage.value = false;
+                        clientController.controlAddClientPage.value = false;
                       },
                       icon: const Icon(Icons.add),
                     ),

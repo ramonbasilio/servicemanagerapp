@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:servicemangerapp/src/data/model/client.dart';
 
-class ReceiverDoc {
+class ServiceOrder {
   Client client;
   String numberDoc;
   String equipment;
@@ -12,7 +12,7 @@ class ReceiverDoc {
   String defect;
   List<String> pathImages;
   String pathSign;
-  ReceiverDoc({
+  ServiceOrder({
     required this.client,
     required this.numberDoc,
     required this.equipment,
@@ -26,8 +26,8 @@ class ReceiverDoc {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-    result.addAll({'numberRO': client});
-    result.addAll({'numberRO': numberDoc});
+    result.addAll({'client': client.toMap()});
+    result.addAll({'numberServiceOrder': numberDoc});
     result.addAll({'equipment': equipment});
     result.addAll({'brand': brand});
     result.addAll({'model': model});
@@ -38,10 +38,10 @@ class ReceiverDoc {
     return result;
   }
 
-  factory ReceiverDoc.fromMap(Map<String, dynamic> map) {
-    return ReceiverDoc(
-      client: map['client'],
-      numberDoc: map['numberRO'],
+  factory ServiceOrder.fromMap(Map<String, dynamic> map) {
+    return ServiceOrder(
+      client: Client.fromMap(map['client'] as Map<String, dynamic>),
+      numberDoc: map['numberServiceOrder'],
       equipment: map['equipment'],
       brand: map['brand'],
       model: map['model'],
@@ -54,6 +54,6 @@ class ReceiverDoc {
 
   String toJson() => json.encode(toMap());
 
-  factory ReceiverDoc.fromJson(String source) =>
-      ReceiverDoc.fromMap(json.decode(source));
+  factory ServiceOrder.fromJson(String source) =>
+      ServiceOrder.fromMap(json.decode(source));
 }

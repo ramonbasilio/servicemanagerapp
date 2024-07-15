@@ -13,13 +13,11 @@ class PageInit extends StatefulWidget {
 }
 
 class _PageInitState extends State<PageInit> {
-  
   @override
   void initState() {
-    Get.put(ClientsProvider()); 
+    Get.put(ManagerProvider());
     super.initState();
   }
-
 
   final List<Widget> _pages = [
     const PageHome(),
@@ -27,8 +25,6 @@ class _PageInitState extends State<PageInit> {
     const PageAccount(),
   ];
   int _index = 0;
-
-  
 
   void onTabTapped(int index) {
     setState(() {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
-import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_input.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_make_service_order/page_make_service_order.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_my_service_orders.dart';
 import 'package:servicemangerapp/src/pages/widgets/buttomHomePageWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/statusServiceWidget.dart';
 import 'package:servicemangerapp/src/utils/utils.dart';
@@ -46,14 +47,16 @@ class PageHome extends StatelessWidget {
                 ButtomHomePageWidget(
                   func: (() {
                     int numberServiceOrder = Utils.gerenateNumerServiceOrder();
-                    Get.to(() => PageInput(
+                    Get.to(() => PageMakeServiceOrder(
                           numberServiceOrder: numberServiceOrder,
                         ));
                   }),
                   nameButtom: 'Criar Ordem de Serviço',
                 ),
                 ButtomHomePageWidget(
-                  func: (() {}),
+                  func: (() {
+                    Get.to(() => PageMyServiceOrders());
+                  }),
                   nameButtom: 'Minhas Ordens de Serviço',
                 ),
                 ButtomHomePageWidget(

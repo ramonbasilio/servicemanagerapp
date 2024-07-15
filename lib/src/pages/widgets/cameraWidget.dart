@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicemangerapp/src/pages/2_pages_buttom/page_input/page_preview_camera.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_make_service_order/page_preview_camera.dart';
 
 class CameraWidget extends StatefulWidget {
   final Function(List<String>) finalReturn;

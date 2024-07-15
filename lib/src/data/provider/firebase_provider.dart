@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_final_fields
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 
-class ClientsProvider extends GetxController {
+class ManagerProvider extends GetxController {
   var controlAddClientPage = false.obs;
-  var allClients = <Client>[].obs;
+  //var allClients = <Client>[].obs;
   var foundClients = <Client>[].obs;
+  var allServiceOrder = <ServiceOrder>[].obs;
 
   FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
 
@@ -18,13 +20,9 @@ class ClientsProvider extends GetxController {
   // }
 
   Future<void> getAllClientsProvider() async {
-    allClients.value = [];
     List<Client> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));
-    for (var x in response) {
-      allClients.add(x);
-    }
-    foundClients.value = allClients;
+    foundClients.value = response;
   }
 
   Future<void> registerClientProvider({required Client client}) async {
@@ -44,16 +42,21 @@ class ClientsProvider extends GetxController {
 
   Future<void> searchClient({required String name}) async {
     List<Client> result = [];
-    if (name.isEmpty) {
-      result = allClients;
-    } else {
-      result = allClients
-          .where((element) => element.name
-              .toString()
-              .toLowerCase()
-              .contains(name.toLowerCase()))
-          .toList();
-    }
+    result = foundClients
+        .where((element) =>
+            element.name.toString().toLowerCase().contains(name.toLowerCase()))
+        .toList();
     foundClients.value = result;
+    if (name.isEmpty) {
+      await getAllClientsProvider();
+    }
+  }
+
+  Future<void> getAllServiceOrderProvider() async {
+    List<ServiceOrder>? response =
+        await _firebaseRepository.getAllServiceOrders();
+    if (response != null) {
+      allServiceOrder.value = response;
+    }
   }
 }
