@@ -27,12 +27,11 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
   ManagerProvider clientController = Get.find();
-  Firebasetorage firebasetorage = Get.put(Firebasetorage());
+  //Firebasetorage firebasetorage = Get.put(Firebasetorage());
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
   List<String> listImagePath = [];
-  List<String> listImagePathURL = [];
   List<int> listSignData = [];
   final _formKey = GlobalKey<FormState>();
   var loadControll = false.obs;
@@ -43,7 +42,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   @override
   Widget build(BuildContext context) {
     MyProvider value = Provider.of<MyProvider>(context, listen: false);
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Ordem de Serviço ${widget.numberServiceOrder}'),
@@ -64,11 +63,15 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                   validate2 = true;
                   validateClientControll.value = false;
                 }
-                if (listSignData.isEmpty) {
-                  validateSignControll.value = true;
+                if (value.controllSign == false) {
+                  setState(() {
+                    validateSignControll.value = true;
+                  });
                 } else {
                   validate3 = true;
-                  validateSignControll.value = false;
+                  setState(() {
+                    validateSignControll.value = false;
+                  });
                 }
                 if (validate1 && validate2 && validate3) {
                   loadControll.value = true;

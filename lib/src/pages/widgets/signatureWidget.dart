@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:servicemangerapp/src/data/provider/provider.dart';
 import 'package:signature/signature.dart';
 
 class Signaturewidget extends StatefulWidget {
@@ -14,9 +16,7 @@ class Signaturewidget extends StatefulWidget {
 class _SignaturewidgetState extends State<Signaturewidget> {
   bool buttomControll = false;
   SignatureController controller = SignatureController(
-    onDrawEnd: () {
-      
-    },
+      onDrawEnd: () {},
       penStrokeWidth: 1,
       penColor: Colors.black,
       exportBackgroundColor: Colors.white);
@@ -29,6 +29,7 @@ class _SignaturewidgetState extends State<Signaturewidget> {
 
   @override
   Widget build(BuildContext context) {
+    MyProvider value = Provider.of<MyProvider>(context, listen: false);
     return Column(
       children: [
         Signature(
@@ -52,6 +53,7 @@ class _SignaturewidgetState extends State<Signaturewidget> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  value.controllSign = false;
                   setState(() {
                     controller.clear();
                   });
@@ -70,29 +72,21 @@ class _SignaturewidgetState extends State<Signaturewidget> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        buttomControll ? Colors.green : Colors.blueAccent),
+                    backgroundColor: Colors.blueAccent),
                 onPressed: () async {
-                  
+                  value.controllSign = true;
                   if (controller.isNotEmpty) {
-                    buttomControll = !buttomControll;
                     await controller.toPngBytes().then((data) {
                       if (data != null) {
                         widget.dataSign!(data);
                       }
-                    }).then((_) {
-                      setState(() {});
                     });
-                  } else {
-                    buttomControll = true;
                   }
                 },
-                child: buttomControll
-                    ? const Text('Ass. Gravada')
-                    : const Text(
-                        'Salvar',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                child: const Text(
+                  'Salvar',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

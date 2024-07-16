@@ -6,18 +6,10 @@ import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.da
 
 class ManagerProvider extends GetxController {
   var controlAddClientPage = false.obs;
-  //var allClients = <Client>[].obs;
   var foundClients = <Client>[].obs;
   var allServiceOrder = <ServiceOrder>[].obs;
 
   FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
-
-  // @override
-  // void onInit() {
-  //   print('chamou...');
-  //   getAllClientsProvider();
-  //   super.onInit();
-  // }
 
   Future<void> getAllClientsProvider() async {
     List<Client> response = await _firebaseRepository.getAllClients();
@@ -48,7 +40,7 @@ class ManagerProvider extends GetxController {
         .toList();
     foundClients.value = result;
     if (name.isEmpty) {
-      await getAllClientsProvider();
+      await getAllClientsProvider(); // PRECISO ARRUMAR ISSO.
     }
   }
 
