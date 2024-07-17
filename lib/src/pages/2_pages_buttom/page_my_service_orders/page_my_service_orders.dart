@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:servicemangerapp/src/extensions/extensions.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_edit_client.dart';
 
 class PageMyServiceOrders extends StatelessWidget {
@@ -66,13 +67,21 @@ class PageMyServiceOrders extends StatelessWidget {
                                 //             .foundClients[index]));
                                 //   }
                                 // },
-                                leading: Text(_managerProvider
-                                    .allServiceOrder[index].client.name),
+                                leading: Column(
+                                  children: [
+                                    Text(
+                                      _managerProvider
+                                          .allServiceOrder[index].client.name,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    Text(_managerProvider.allServiceOrder[index].date!.dateTimeFormart())
+                                  ],
+                                ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text((_managerProvider
-                                        .allServiceOrder[index].equipment)),
+                                    Text(
+                                        ('Dispositivo: ${_managerProvider.allServiceOrder[index].equipment}')),
                                     Text(
                                         'Marca: ${(_managerProvider.allServiceOrder[index].brand)}'),
                                     Text(
@@ -80,8 +89,10 @@ class PageMyServiceOrders extends StatelessWidget {
                                   ],
                                 ),
 
-                                subtitle: Text((_managerProvider
-                                    .allServiceOrder[index].defect)),
+                                subtitle: Text(
+                                  ('Defeito: ${_managerProvider.allServiceOrder[index].defect}'),
+                                  style: const TextStyle(fontSize: 15),
+                                ),
                               ),
                               const Divider()
                             ],

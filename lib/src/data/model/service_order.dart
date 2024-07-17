@@ -24,7 +24,7 @@ class ServiceOrder {
       required this.pathImages,
       required this.pathSign,
       DateTime? date})
-      : date = DateTime.now();
+      : date = DateTime.timestamp();
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};

@@ -2,12 +2,18 @@
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
+import 'package:servicemangerapp/src/data/model/user.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 
 class ManagerProvider extends GetxController {
   var controlAddClientPage = false.obs;
   var foundClients = <Client>[].obs;
   var allServiceOrder = <ServiceOrder>[].obs;
+  Rx<UserProfile> userProfile = UserProfile(
+    email: '',
+    idUser: '',
+    name: '',
+  ).obs;
 
   FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
 
@@ -15,6 +21,17 @@ class ManagerProvider extends GetxController {
     List<Client> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));
     foundClients.value = response;
+  }
+
+  void updateUserProfile(UserProfile newUserProfile) {
+    userProfile.value = newUserProfile;
+  }
+
+  Future<void> getUserProfile() async {
+    UserProfile? _userProfile = await FirebaseCloudFirestore().getUserProfile();
+    if (_userProfile != null) {
+      updateUserProfile(_userProfile);
+    }
   }
 
   Future<void> registerClientProvider({required Client client}) async {

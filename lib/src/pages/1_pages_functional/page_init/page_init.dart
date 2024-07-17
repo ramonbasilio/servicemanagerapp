@@ -13,11 +13,7 @@ class PageInit extends StatefulWidget {
 }
 
 class _PageInitState extends State<PageInit> {
-  @override
-  void initState() {
-    Get.put(ManagerProvider());
-    super.initState();
-  }
+  ManagerProvider managerProvider = Get.put(ManagerProvider());
 
   final List<Widget> _pages = [
     const PageHome(),
@@ -34,7 +30,29 @@ class _PageInitState extends State<PageInit> {
 
   @override
   Widget build(BuildContext context) {
+    managerProvider.getUserProfile();
     return Scaffold(
+      drawer: Obx(() => Drawer(
+            child: ListView(
+              children: [
+                DrawerHeader(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        managerProvider.userProfile.value.name,
+                        style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+                      Text(
+                        managerProvider.userProfile.value.email,
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
       body: _pages[_index],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,

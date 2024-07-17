@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
+import 'package:servicemangerapp/src/data/model/user.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-in/page_sign-in.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_init.dart';
 
@@ -24,6 +26,11 @@ class FireAuth {
       user = userCredential.user;
       await user!.reload();
       user = auth.currentUser;
+      UserProfile userProfile =
+          UserProfile(name: name, email: email, idUser: user!.uid);
+      FirebaseCloudFirestore()
+          .registerUserProfile(user: userProfile);
+          
       print('Finalizado!');
       Get.back();
       if (context.mounted) {

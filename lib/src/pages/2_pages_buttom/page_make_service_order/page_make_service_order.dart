@@ -27,7 +27,6 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
   ManagerProvider clientController = Get.find();
-  //Firebasetorage firebasetorage = Get.put(Firebasetorage());
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;

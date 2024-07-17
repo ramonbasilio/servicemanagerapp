@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
+import 'package:servicemangerapp/src/data/model/user.dart';
+import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
 import 'package:servicemangerapp/src/pages/1_pages_functional/page_home/page_home.dart';
 
 class FirebaseCloudFirestore {
@@ -20,6 +22,25 @@ class FirebaseCloudFirestore {
         .set(client.toMap());
   }
 
+  Future<void> registerUserProfile({required UserProfile user}) async {
+    await _firebaseFirestore
+        .collection('User')
+        .doc(_firebaseAuth.currentUser!.email)
+        .set(user.toMap());
+  }
+
+  Future<UserProfile?> getUserProfile() async {
+    DocumentSnapshot docSnapshot = await _firebaseFirestore
+        .collection('User')
+        .doc(_firebaseAuth.currentUser!.email)
+        .get();
+    if (docSnapshot.exists) {
+      return UserProfile.fromMap(docSnapshot.data() as Map<String, dynamic>);
+    } else {
+      return null;
+    }
+  }
+
   Future<List<Client>> getAllClients() async {
     List<Client> listClients = [];
     await _firebaseFirestore
@@ -30,8 +51,6 @@ class FirebaseCloudFirestore {
         .then((querySnapshot) {
       for (var docSnapshot in querySnapshot.docs) {
         listClients.add(Client.fromMap(docSnapshot.data()));
-        print(
-            'getAllClients ${_firebaseAuth.currentUser!.email}: ${docSnapshot.data()}');
       }
     });
     return listClients;
@@ -71,7 +90,7 @@ class FirebaseCloudFirestore {
             colorMessage: Colors.blueAccent);
       }
 
-      Get.to(() => const PageHome());
+      Get.off(() => const PageSplash());
     } on FirebaseException catch (_) {
       if (context.mounted) {
         AlertsDialog.snackBarMessageFirebaseAuth(context,
@@ -91,7 +110,6 @@ class FirebaseCloudFirestore {
           .then((querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
           listServiceOrder.add(ServiceOrder.fromMap(docSnapshot.data()));
-          print('ServiceOrder: ${docSnapshot.data()}');
         }
       });
       return listServiceOrder;
