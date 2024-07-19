@@ -26,7 +26,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   final TextEditingController _modelController = TextEditingController();
   final TextEditingController _accessoriesController = TextEditingController();
   final TextEditingController _defectController = TextEditingController();
-  ManagerProvider clientController = Get.find();
+  ManagerProvider managerProvider = Get.find();
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
@@ -126,7 +126,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                     IconButton(
                       iconSize: 30,
                       onPressed: () async {
-                        clientController.controlAddClientPage.value = true;
+                        managerProvider.controlAddClientPage.value = true;
                         addClient = await Get.to(() => PageListClientes());
                         if (addClient != null) {
                           nameClient.value = addClient!.name;
@@ -134,7 +134,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                           emailClient.value = addClient!.email;
                           validateClientControll.value = false;
                         }
-                        clientController.controlAddClientPage.value = false;
+                        managerProvider.controlAddClientPage.value = false;
                       },
                       icon: const Icon(Icons.add),
                     ),

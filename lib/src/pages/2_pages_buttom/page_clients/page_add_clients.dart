@@ -78,6 +78,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 },
               ),
               TextFormField(
+                keyboardType:const TextInputType.numberWithOptions(),
                 inputFormatters: [phoneMask],
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Telefone'),
@@ -89,6 +90,7 @@ class _ClienteCadastroPageState extends State<ClienteCadastroPage> {
                 },
               ),
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {

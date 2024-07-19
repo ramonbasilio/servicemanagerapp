@@ -80,6 +80,8 @@ class PageMyServiceOrders extends StatelessWidget {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                                                        Text(
+                                        ('Dispositivo: ${_managerProvider.allServiceOrder[index].numberDoc}')),
                                     Text(
                                         ('Dispositivo: ${_managerProvider.allServiceOrder[index].equipment}')),
                                     Text(

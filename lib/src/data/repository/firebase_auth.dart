@@ -5,7 +5,7 @@ import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/data/model/user.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_sign-in/page_sign-in.dart';
-import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_init.dart';
+import 'package:servicemangerapp/src/pages/1_page_home/page_home.dart';
 
 class FireAuth {
   static Future<void> registerUsignEmailPassword({
@@ -64,7 +64,7 @@ class FireAuth {
         AlertsDialog.snackBarMessageFirebaseAuth(context,
             messageOpcional: 'Login realizado com sucesso!',
             colorMessage: Colors.green);
-        Get.off(() => const PageInit());
+        Get.off(() => PageHome());
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {

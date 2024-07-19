@@ -7,7 +7,6 @@ import 'package:servicemangerapp/src/data/model/client.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/model/user.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
-import 'package:servicemangerapp/src/pages/1_pages_functional/page_home/page_home.dart';
 
 class FirebaseCloudFirestore {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;

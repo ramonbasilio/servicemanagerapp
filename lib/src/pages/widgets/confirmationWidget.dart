@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
-import 'package:servicemangerapp/src/pages/1_pages_functional/page_init/page_init.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 
 class Confirmationwidget {

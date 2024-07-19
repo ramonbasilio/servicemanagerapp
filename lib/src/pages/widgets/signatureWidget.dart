@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/provider/provider.dart';
 import 'package:signature/signature.dart';
@@ -15,6 +16,7 @@ class Signaturewidget extends StatefulWidget {
 
 class _SignaturewidgetState extends State<Signaturewidget> {
   bool buttomControll = false;
+  var controllSign = false.obs;
   SignatureController controller = SignatureController(
       onDrawEnd: () {},
       penStrokeWidth: 1,
@@ -45,14 +47,6 @@ class _SignaturewidgetState extends State<Signaturewidget> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    controller.undo();
-                  });
-                },
-                child: const Text('Desfazer'),
-              ),
-              ElevatedButton(
-                onPressed: () {
                   value.controllSign = false;
                   setState(() {
                     controller.clear();
@@ -70,24 +64,32 @@ class _SignaturewidgetState extends State<Signaturewidget> {
                 },
                 child: const Text('Apagar'),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent),
-                onPressed: () async {
-                  value.controllSign = true;
-                  if (controller.isNotEmpty) {
-                    await controller.toPngBytes().then((data) {
-                      if (data != null) {
-                        widget.dataSign!(data);
+              Obx(() => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent),
+                    onPressed: () async {
+                      controllSign.value = true;
+                      await Future.delayed(Duration(seconds: 2));
+                      value.controllSign = true;
+                      if (controller.isNotEmpty) {
+                        await controller.toPngBytes().then((data) {
+                          if (data != null) {
+                            widget.dataSign!(data);
+                          }
+                        });
                       }
-                    });
-                  }
-                },
-                child: const Text(
-                  'Salvar',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+                      controllSign.value = false;
+                    },
+                    child: !controllSign.value
+                        ? Text(
+                            'Confirmar Assinatura',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator()),
+                  )),
             ],
           ),
         )

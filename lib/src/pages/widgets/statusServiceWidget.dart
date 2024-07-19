@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 
 class StatusServiceWidget extends StatelessWidget {
-  const StatusServiceWidget({
+  StatusServiceWidget({
     super.key,
   });
 
+  ManagerProvider managerProvider = Get.find();
+
   @override
   Widget build(BuildContext context) {
+    managerProvider.getAllClientsProvider();
+    managerProvider.getAllServiceOrderProvider();
     return Container(
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(10),
       height: 200,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          Text('Status Serviços', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+          const Text(
+            'Status Serviços',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           SizedBox(
             height: 140,
             child: Column(
@@ -25,29 +35,31 @@ class StatusServiceWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Aguar. Avaliação Técnica'),
-                    Text('2'),
+                    const Text('Total de clientes'),
+                    Obx(() =>
+                        Text(managerProvider.foundClients.length.toString())),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Aguar. Peças'),
-                    Text('5'),
+                    const Text('Ordens de Serviços totais'),
+                    Obx(() => Text(
+                        managerProvider.allServiceOrder.length.toString())),
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Aguar. Aprovação'),
-                    Text('12'),
+                    Text('-'),
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Prontos'),
-                    Text('3'),
+                    Text('-'),
                   ],
                 ),
               ],
