@@ -17,7 +17,14 @@ class ManagerProvider extends GetxController {
 
   FirebaseCloudFirestore _firebaseRepository = FirebaseCloudFirestore();
 
+  Future<void> reloadProvider() async {
+    await getAllClientsProvider();
+    await getAllServiceOrderProvider();
+    await getUserProfile();
+  }
+
   Future<void> getAllClientsProvider() async {
+    print('chamou getAllClientsProvider');
     List<Client> response = await _firebaseRepository.getAllClients();
     response.sort((a, b) => a.name.compareTo(b.name));
     foundClients.value = response;
@@ -28,6 +35,7 @@ class ManagerProvider extends GetxController {
   }
 
   Future<void> getUserProfile() async {
+    print('chamou getUserProfile');
     UserProfile? _userProfile = await FirebaseCloudFirestore().getUserProfile();
     if (_userProfile != null) {
       updateUserProfile(_userProfile);
@@ -62,6 +70,7 @@ class ManagerProvider extends GetxController {
   }
 
   Future<void> getAllServiceOrderProvider() async {
+    print('chamou getAllServiceOrderProvider');
     List<ServiceOrder>? response =
         await _firebaseRepository.getAllServiceOrders();
     if (response != null) {
