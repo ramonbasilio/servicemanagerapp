@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_make_service_order/page_make_service_order.dart';
-import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_my_service_orders.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_list_service_orders.dart';
 import 'package:servicemangerapp/src/pages/widgets/buttomHomePageWidget.dart';
 import 'package:servicemangerapp/src/pages/widgets/drawerWIdget.dart';
 import 'package:servicemangerapp/src/pages/widgets/statusServiceWidget.dart';
@@ -71,7 +71,7 @@ class PageHome extends StatelessWidget {
                   ),
                   ButtomHomePageWidget2(
                     func: (() {
-                      Get.to(() => PageMyServiceOrders());
+                      Get.to(() => PageListServiceOrders());
                     }),
                     nameButtom: 'Minhas Ordens de Serviço',
                   ),

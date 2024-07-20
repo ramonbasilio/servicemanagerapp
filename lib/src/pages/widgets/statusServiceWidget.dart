@@ -11,8 +11,7 @@ class StatusServiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    managerProvider.getAllClientsProvider();
-    managerProvider.getAllServiceOrderProvider();
+    managerProvider.reloadProvider();
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(10),
@@ -36,8 +35,7 @@ class StatusServiceWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Total de clientes'),
-                    Obx(() =>
-                        Text(managerProvider.foundClients.length.toString())),
+                    Obx(() => Text(managerProvider.foundClients.length.toString())),
                   ],
                 ),
                 Row(

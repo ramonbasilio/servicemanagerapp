@@ -73,6 +73,15 @@ class FirebaseCloudFirestore {
         .delete();
   }
 
+    Future<void> deleteMethod({required String colletion, required String id}) async {
+    await _firebaseFirestore
+        .collection('User')
+        .doc(_firebaseAuth.currentUser!.email)
+        .collection(colletion)
+        .doc(id)
+        .delete();
+  }
+
   Future<void> registerReceiverOrder(
       {required ServiceOrder receiverDoc,
       required BuildContext context}) async {

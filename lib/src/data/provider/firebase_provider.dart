@@ -57,6 +57,12 @@ class ManagerProvider extends GetxController {
     getAllClientsProvider();
   }
 
+  Future<void> deleteProviderMethod(
+      {required String colletion, required String id}) async {
+    await _firebaseRepository.deleteMethod(colletion: colletion, id: id);
+    getAllServiceOrderProvider();
+  }
+
   Future<void> searchClient({required String name}) async {
     List<Client> result = [];
     result = foundClients
