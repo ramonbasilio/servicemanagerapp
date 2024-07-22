@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_share_service_order.dart';
+import 'package:servicemangerapp/src/pdf/genarate_pdf.dart';
 
 class Teste extends StatelessWidget {
   const Teste({super.key});
@@ -21,14 +26,15 @@ class Teste extends StatelessWidget {
               height: 60,
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(10))),
-                onPressed: () {},
-                child: Text('Botão 1'),
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                onPressed: () async {
+                  File pdfFile = await GeneratePdf().createPdf();
+                  PdfViewer().viewPdf(pdfFile);
+                },
+                child: Text('Gerar PDF'),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Botão 1'),
             ),
           ],
         ),
