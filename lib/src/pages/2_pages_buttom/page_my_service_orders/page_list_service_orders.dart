@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
@@ -5,6 +7,8 @@ import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/extensions/extensions.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_edit_service_order.dart';
 import 'package:servicemangerapp/src/pages/widgets/deleteServiceOrderConfirmation.dart';
+import 'package:servicemangerapp/src/pdf/genarate_pdf.dart';
+import 'package:servicemangerapp/src/pdf/view_pdf_2.dart';
 
 class PageListServiceOrders extends StatelessWidget {
   PageListServiceOrders({super.key});
@@ -89,8 +93,7 @@ class PageListServiceOrders extends StatelessWidget {
                 ListTile(
                     leading: const Icon(Icons.monetization_on),
                     title: const Text('Gerar Orçamento'),
-                    onTap: () => {
-                        }),
+                    onTap: () => {}),
                 ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('Editar'),
@@ -103,7 +106,13 @@ class PageListServiceOrders extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.share),
                   title: const Text('Compartilhar'),
-                  onTap: () => {},
+                  onTap: () async {
+                    File pdfFile = await GeneratePdf(serviceOrder: serviceOrder)
+                        .createPdf();
+                    Get.to(() => ViwerPdf(
+                          path: pdfFile.path,
+                        ));
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.delete),

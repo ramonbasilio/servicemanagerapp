@@ -56,10 +56,12 @@ class FireAuth {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
-      await auth.signInWithEmailAndPassword(
+     final cred = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      
+      print(cred.credential);
       if (context.mounted) {
         AlertsDialog.snackBarMessageFirebaseAuth(context,
             messageOpcional: 'Login realizado com sucesso!',
