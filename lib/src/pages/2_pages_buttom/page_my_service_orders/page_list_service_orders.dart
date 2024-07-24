@@ -13,6 +13,7 @@ import 'package:servicemangerapp/src/pdf/view_pdf_2.dart';
 class PageListServiceOrders extends StatelessWidget {
   PageListServiceOrders({super.key});
   final ManagerProvider _managerProvider = Get.find();
+  var loading = false.obs;
   @override
   Widget build(BuildContext context) {
     _managerProvider.getAllServiceOrderProvider();
@@ -105,13 +106,21 @@ class PageListServiceOrders extends StatelessWidget {
                         }),
                 ListTile(
                   leading: const Icon(Icons.share),
-                  title: const Text('Compartilhar'),
+                  title: Obx(() => !loading.value
+                      ? const Text('Compartilhar')
+                      : const SizedBox(
+                        height: 5,
+                        width: 5,
+                        child: LinearProgressIndicator())),
                   onTap: () async {
+                    loading.value = true;
+                    Future.delayed(const Duration(seconds: 5));
                     File pdfFile = await GeneratePdf(serviceOrder: serviceOrder)
                         .createPdf();
                     Get.to(() => ViwerPdf(
                           path: pdfFile.path,
                         ));
+                    loading.value = false;
                   },
                 ),
                 ListTile(

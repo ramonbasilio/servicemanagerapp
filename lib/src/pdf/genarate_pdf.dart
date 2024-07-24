@@ -100,17 +100,27 @@ class GeneratePdf {
                       Text('Modelo: ${serviceOrder.model}'),
                       Text('Acessórios: ${serviceOrder.accessories}'),
                       Text('Defeito: ${serviceOrder.defect}'),
-                      Text('Entregue em: ${Utils.convertDate(serviceOrder.date!)}')
+                      Text(
+                          'Entregue em: ${Utils.convertDate(serviceOrder.date!)}')
                     ],
                   ),
                   Divider(),
                   Text('Fotos do equipamento'),
-                  SizedBox(height: 200),
+                  Row(
+                      children: List<Widget>.generate(listMemoryImagem.length, (int index) {
+                    return Expanded(child: Container(
+                      height: 100,
+                      margin: const EdgeInsets.all(5),
+                      color: PdfColors.amber,
+                      child: Image(listMemoryImagem[index]) 
+                      ));
+                  })),
                   Divider(),
-                 Center(child: Text('Assinaturas')),
+                  Center(child: Text('Assinaturas')),
                   SizedBox(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Column(
                           children: [
@@ -128,7 +138,8 @@ class GeneratePdf {
                             SizedBox(
                               height: 100,
                               width: 100,
-                              child: Image(imageSignRamon, width: 100, height: 100),
+                              child: Image(imageSignRamon,
+                                  width: 100, height: 100),
                             ),
                             SizedBox(width: 100, child: Divider()),
                             Text('Técnico: Ramon Basilio'),

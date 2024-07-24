@@ -12,7 +12,6 @@ class Firebasetorage {
   late final String? _emailUser;
 
   String urlString = '';
-  List<String> listString = [];
 
   Firebasetorage() {
     _emailUser = _firebaseAuth.currentUser!.email;
@@ -26,6 +25,7 @@ class Firebasetorage {
       required String clientName,
       required BuildContext context}) async {
     Uint8List uint8List = Uint8List.fromList(signList);
+    List<String> listString = [];
 
     if (context.mounted) {
       MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
@@ -40,24 +40,63 @@ class Firebasetorage {
       }
 
       for (var path in pathList) {
-        if (path.isEmpty) {
-          listString.add('');
-        } else {
-          File file = File(path);
-          String nameFile = path.split('/').last;
-          try {
-            Reference myRef = _firebaseStorage
-                .ref()
-                .child('/$_emailUser/$clientId/$numberDoc/images/$nameFile');
-            await myRef.putFile(file);
-            String temp = await myRef.getDownloadURL();
-            listString.add(temp);
-          } on FirebaseException catch (e) {
-            print('Erro ao salvar imagens: $e');
-          }
-        }
+        String nameFile = '';
+        File file = File(path);
+        nameFile = path.split('/').last;
+        String temp = '';
+
+        Reference myRef = _firebaseStorage
+            .ref()
+            .child('/$_emailUser/$clientId/$numberDoc/images/$nameFile');
+        await myRef.putFile(file);
+        temp = await myRef.getDownloadURL();
+        listString.add(temp);
+        print(listString);
       }
       myProvider.addPathList(listString, urlString);
     }
   }
+
+  //   Future<void> uploadImage(
+  //     {required List<String> pathList,
+  //     required List<int> signList,
+  //     required String clientId,
+  //     required String numberDoc,
+  //     required String clientName,
+  //     required BuildContext context}) async {
+  //   Uint8List uint8List = Uint8List.fromList(signList);
+
+  //   if (context.mounted) {
+  //     MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
+
+  //     try {
+  //       Reference myRef = _firebaseStorage.ref().child(
+  //           '/$_emailUser/$clientId/$numberDoc/sign/sign-$clientName.jpg');
+  //       await myRef.putData(uint8List);
+  //       urlString = await myRef.getDownloadURL();
+  //     } on FirebaseException catch (e) {
+  //       print('Erro ao salvar assinatura: $e');
+  //     }
+
+  //     for (var path in pathList) {
+  //       if (path.isEmpty) {
+  //         listString.add('');
+  //       } else {
+  //         File file = File(path);
+  //         String nameFile = path.split('/').last;
+  //         try {
+  //           Reference myRef = _firebaseStorage
+  //               .ref()
+  //               .child('/$_emailUser/$clientId/$numberDoc/images/$nameFile');
+  //           await myRef.putFile(file);
+  //           String temp = await myRef.getDownloadURL();
+  //           listString.add(temp);
+  //         } on FirebaseException catch (e) {
+  //           print('Erro ao salvar imagens: $e');
+  //         }
+  //       }
+  //     }
+  //     myProvider.addPathList(listString, urlString);
+  //   }
+  // }
 }

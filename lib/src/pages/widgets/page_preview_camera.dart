@@ -17,7 +17,9 @@ class PreviewPageCamera extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-                Positioned.fill(child: Image.file(file, fit: BoxFit.cover)),
+                Positioned.fill(
+                  child: Image.file(file, fit: BoxFit.contain),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

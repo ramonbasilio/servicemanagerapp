@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.da
 import 'package:servicemangerapp/src/data/repository/firebase_storage.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_clients/page_list_clientes.dart';
 import 'package:servicemangerapp/src/pages/widgets/cameraWidget.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera_widget_2.dart';
 import 'package:servicemangerapp/src/pages/widgets/signatureWidget.dart';
 import 'package:servicemangerapp/src/utils/utils.dart';
 
@@ -226,14 +229,21 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                     ],
                   ),
                 ),
-                CameraWidget(
-                  finalReturn: (files) {
-                    for (var x in files) {
-                      print('imprimindo cada elemento: $x');
-                      listImagePath.add(x);
+                CameraWidget2(
+                  finalReturn: (List<File> value) {
+                    for (var x in value) {
+                      listImagePath.add(x.path);
                     }
                   },
                 ),
+                // CameraWidget(
+                //   finalReturn: (files) {
+                //     for (var x in files) {
+                //       print('imprimindo cada elemento: $x');
+                //       listImagePath.add(x);
+                //     }
+                //   },
+                // ),
                 const Divider(
                   color: Colors.grey,
                   thickness: 1.5,
