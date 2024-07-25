@@ -9,6 +9,7 @@ import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders
 import 'package:servicemangerapp/src/pages/widgets/deleteServiceOrderConfirmation.dart';
 import 'package:servicemangerapp/src/pdf/genarate_pdf.dart';
 import 'package:servicemangerapp/src/pdf/view_pdf_2.dart';
+import 'package:servicemangerapp/src/utils/utils.dart';
 
 class PageListServiceOrders extends StatelessWidget {
   PageListServiceOrders({super.key});
@@ -48,9 +49,9 @@ class PageListServiceOrders extends StatelessWidget {
                                           .allServiceOrder[index].client.name,
                                       style: const TextStyle(fontSize: 16),
                                     ),
-                                    Text(_managerProvider
+                                    Text(Utils.convertDate(_managerProvider
                                         .allServiceOrder[index].date!
-                                        .dateTimeFormart())
+                                        ))
                                   ],
                                 ),
                                 title: Column(

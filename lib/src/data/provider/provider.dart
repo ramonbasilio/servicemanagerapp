@@ -9,6 +9,7 @@ class MyProvider extends ChangeNotifier {
   void addPathList(List<String> list, String url) {
     listPathImages = list;
     urlDownload = url;
+    print('exibindo lista de imagens URL: $listPathImages');
     notifyListeners();
   }
 

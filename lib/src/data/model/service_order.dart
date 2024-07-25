@@ -24,7 +24,7 @@ class ServiceOrder {
       required this.pathImages,
       required this.pathSign,
       DateTime? date})
-      : date = DateTime.timestamp();
+      : date = date ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
@@ -37,7 +37,7 @@ class ServiceOrder {
     result.addAll({'defect': defect});
     result.addAll({'pathImages': pathImages});
     result.addAll({'pathSign': pathSign});
-    result.addAll({'date': date.toString()});
+    result.addAll({'date': date!.toIso8601String()});
     return result;
   }
 

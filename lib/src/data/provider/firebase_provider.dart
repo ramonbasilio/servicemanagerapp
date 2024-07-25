@@ -79,8 +79,7 @@ class ManagerProvider extends GetxController {
     print('chamou getAllServiceOrderProvider');
     List<ServiceOrder>? response =
         await _firebaseRepository.getAllServiceOrders();
-    if (response != null) {
-      allServiceOrder.value = response;
-    }
+    response!.sort((a, b) => b.date!.compareTo(a.date!));
+    allServiceOrder.value = response;
   }
 }

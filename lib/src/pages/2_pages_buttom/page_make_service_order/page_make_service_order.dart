@@ -33,7 +33,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
   var nameClient = ''.obs;
   var phoneClient = ''.obs;
   var emailClient = ''.obs;
-  List<String> listImagePath = [];
+  List<File> listImagePath = [];
   List<int> listSignData = [];
   final _formKey = GlobalKey<FormState>();
   var loadControll = false.obs;
@@ -95,7 +95,9 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                     defect: _defectController.text,
                     pathImages: value.getList(),
                     pathSign: value.getUrl(),
+                    date: DateTime.now(),
                   );
+                  
                   if (context.mounted) {
                     await FirebaseCloudFirestore().registerReceiverOrder(
                       receiverDoc: receiverDoc,
@@ -169,6 +171,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                   ),
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Insira o tipo de equipamento';
@@ -180,6 +183,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                   decoration: const InputDecoration(labelText: 'Equipamento'),
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Insira a marca de equipamento';
@@ -191,6 +195,8 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                   decoration: const InputDecoration(labelText: 'Marca'),
                 ),
                 TextFormField(
+                  
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Insira o modelo de equipamento';
@@ -202,10 +208,12 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                   decoration: const InputDecoration(labelText: 'Modelo'),
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   controller: _accessoriesController,
                   decoration: const InputDecoration(labelText: 'Acessórios'),
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Insira a descrição do defeito';
@@ -231,9 +239,7 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                 ),
                 CameraWidget2(
                   finalReturn: (List<File> value) {
-                    for (var x in value) {
-                      listImagePath.add(x.path);
-                    }
+                    listImagePath = value;
                   },
                 ),
                 // CameraWidget(

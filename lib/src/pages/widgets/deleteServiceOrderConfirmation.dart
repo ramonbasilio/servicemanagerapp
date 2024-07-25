@@ -13,7 +13,8 @@ class DeleteServiceOrderConfirmation {
         builder: (BuildContext dialogContext) {
           return AlertDialog(
             title: const Text('Confirmar Exclusão'),
-            content: const Text('Você tem certeza que deseja excluir este item?'),
+            content:
+                const Text('Você tem certeza que deseja excluir este item?'),
             actions: <Widget>[
               TextButton(
                 child: const Text('Cancelar'),
@@ -26,18 +27,7 @@ class DeleteServiceOrderConfirmation {
                 onPressed: () {
                   managerProvider.deleteProviderMethod(
                       colletion: 'Service Order', id: id);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PageListServiceOrders(),
-                      ));
-
-                  (context);
-                  // Fecha o diálogo
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Item excluído com sucesso!')));
+                  Get.back();
                 },
               ),
             ],

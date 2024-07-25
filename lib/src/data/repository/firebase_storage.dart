@@ -18,7 +18,7 @@ class Firebasetorage {
   }
 
   Future<void> uploadImage(
-      {required List<String> pathList,
+      {required List<File> pathList,
       required List<int> signList,
       required String clientId,
       required String numberDoc,
@@ -31,27 +31,24 @@ class Firebasetorage {
       MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
 
       try {
-        Reference myRef = _firebaseStorage.ref().child(
+        Reference myRef1 = _firebaseStorage.ref().child(
             '/$_emailUser/$clientId/$numberDoc/sign/sign-$clientName.jpg');
-        await myRef.putData(uint8List);
-        urlString = await myRef.getDownloadURL();
+        await myRef1.putData(uint8List);
+        urlString = await myRef1.getDownloadURL();
       } on FirebaseException catch (e) {
         print('Erro ao salvar assinatura: $e');
       }
 
-      for (var path in pathList) {
-        String nameFile = '';
-        File file = File(path);
-        nameFile = path.split('/').last;
-        String temp = '';
 
+      for (var x in pathList) {
+        File file = File(x.path);
+        String nameFile = x.path.split('/').last;
         Reference myRef = _firebaseStorage
             .ref()
             .child('/$_emailUser/$clientId/$numberDoc/images/$nameFile');
         await myRef.putFile(file);
-        temp = await myRef.getDownloadURL();
+       String temp = await myRef.getDownloadURL();
         listString.add(temp);
-        print(listString);
       }
       myProvider.addPathList(listString, urlString);
     }
