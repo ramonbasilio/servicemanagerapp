@@ -56,7 +56,7 @@ class _CameraWidget2State extends State<CameraWidget2> {
                               child: Column(
                                 children: [
                                   Image.file(
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitWidth,
                                     width: 200,
                                     height: 200,
                                     listImage[index],
