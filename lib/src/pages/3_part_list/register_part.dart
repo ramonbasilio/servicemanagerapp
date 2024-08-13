@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera/camera_init.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera_widget_3.dart';
 
 class RegisterPart extends StatefulWidget {
   const RegisterPart({super.key});
@@ -17,10 +21,12 @@ class _RegisterPartState extends State<RegisterPart> {
   final TextEditingController _quantidadeController = TextEditingController();
 
   final List<String> _unidades = ['Kg', 'Litro', 'Metro', 'Unidade', 'Caixa'];
+  List<File> listImagePath = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -62,7 +68,7 @@ class _RegisterPartState extends State<RegisterPart> {
                   child: TextFormField(
                     controller: _unidadeController,
                     decoration: InputDecoration(
-                      labelText: 'Unidade',
+                      labelText: 'Unidade de medida',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -108,6 +114,11 @@ class _RegisterPartState extends State<RegisterPart> {
                 },
               ),
               SizedBox(height: 24),
+              CameraInit(
+                finalReturn: (List<File> value) {
+                  listImagePath = value;
+                },
+              ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

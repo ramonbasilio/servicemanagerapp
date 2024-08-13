@@ -7,8 +7,11 @@ import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash
 import 'package:firebase_core/firebase_core.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_quotation/page_quotation.dart';
 import 'package:servicemangerapp/src/pages/3_part_list/page_part.dart';
+import 'package:servicemangerapp/src/pages/3_part_list/register_part.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera/camera_init.dart';
 import 'package:servicemangerapp/src/pages/widgets/camera_widget_2.dart';
 import 'package:servicemangerapp/teste.dart';
+import 'package:servicemangerapp/teste2.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PagePart(),
+      home: RegisterPart(),
     );
   }
 }
