@@ -11,18 +11,18 @@ import 'package:servicemangerapp/src/pages/widgets/camera/camera_open.dart';
 import 'package:servicemangerapp/src/pages/widgets/page_preview_camera.dart';
 import 'package:servicemangerapp/src/utils/utils.dart';
 
-class CameraInit extends StatefulWidget {
+class CameraInitMultImg extends StatefulWidget {
   final Function(List<File>) finalReturn;
-  const CameraInit({
+  const CameraInitMultImg({
     super.key,
     required this.finalReturn,
   });
 
   @override
-  State<CameraInit> createState() => _CameraInitState();
+  State<CameraInitMultImg> createState() => _CameraInitMultImgState();
 }
 
-class _CameraInitState extends State<CameraInit> {
+class _CameraInitMultImgState extends State<CameraInitMultImg> {
   File? galleryFile;
   List<File> listImage = [];
 

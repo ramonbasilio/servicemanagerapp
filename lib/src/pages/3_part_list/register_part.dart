@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:servicemangerapp/src/pages/widgets/camera/camera_init.dart';
+import 'package:servicemangerapp/src/data/model/part.dart';
+import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera/camera_init_mult_img.dart';
+import 'package:servicemangerapp/src/pages/widgets/camera/camera_init_one_img.dart';
 import 'package:servicemangerapp/src/pages/widgets/camera_widget_3.dart';
 
 class RegisterPart extends StatefulWidget {
@@ -14,19 +17,19 @@ class RegisterPart extends StatefulWidget {
 class _RegisterPartState extends State<RegisterPart> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _detalhesController = TextEditingController();
-  final TextEditingController _unidadeController = TextEditingController();
-  final TextEditingController _precoController = TextEditingController();
-  final TextEditingController _quantidadeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
+  final TextEditingController _unitController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   final List<String> _unidades = ['Kg', 'Litro', 'Metro', 'Unidade', 'Caixa'];
-  List<File> listImagePath = [];
+  String stringImagePath = '';
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -34,8 +37,8 @@ class _RegisterPartState extends State<RegisterPart> {
           child: ListView(
             children: [
               TextFormField(
-                controller: _nomeController,
-                decoration: InputDecoration(
+                controller: _nameController,
+                decoration: const InputDecoration(
                   labelText: 'Nome da Peça',
                 ),
                 validator: (value) {
@@ -45,10 +48,10 @@ class _RegisterPartState extends State<RegisterPart> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
-                controller: _detalhesController,
-                decoration: InputDecoration(
+                controller: _detailsController,
+                decoration: const InputDecoration(
                   labelText: 'Detalhes',
                 ),
                 maxLines: 3,
@@ -59,15 +62,15 @@ class _RegisterPartState extends State<RegisterPart> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
                   _showUnitBottomSheet(context);
                 },
                 child: AbsorbPointer(
                   child: TextFormField(
-                    controller: _unidadeController,
-                    decoration: InputDecoration(
+                    controller: _unitController,
+                    decoration: const InputDecoration(
                       labelText: 'Unidade de medida',
                     ),
                     validator: (value) {
@@ -79,10 +82,10 @@ class _RegisterPartState extends State<RegisterPart> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
-                controller: _precoController,
-                decoration: InputDecoration(
+                controller: _valueController,
+                decoration: const InputDecoration(
                   labelText: 'Preço',
                 ),
                 keyboardType: TextInputType.number,
@@ -90,16 +93,17 @@ class _RegisterPartState extends State<RegisterPart> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o preço';
                   }
+                  value = value.replaceAll(',', '.');
                   if (double.tryParse(value) == null) {
                     return 'Por favor, insira um valor numérico válido';
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
-                controller: _quantidadeController,
-                decoration: InputDecoration(
+                controller: _amountController,
+                decoration: const InputDecoration(
                   labelText: 'Quantidade',
                 ),
                 keyboardType: TextInputType.number,
@@ -113,24 +117,61 @@ class _RegisterPartState extends State<RegisterPart> {
                   return null;
                 },
               ),
-              SizedBox(height: 24),
-              CameraInit(
-                finalReturn: (List<File> value) {
-                  listImagePath = value;
+              const SizedBox(height: 24),
+              CameraInitOneImg(
+                finalReturn: (String value) {
+                  stringImagePath = value;
                 },
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Processando dados')),
-                    );
-                  }
-                },
-                child: Text('Salvar'),
+              const Divider(
+                color: Colors.black,
+                thickness: 0.8,
               ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Checkbox(
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                  },
+                ),
+                const Text('Salvar na lista de peças')
+              ],
+            ),
+            SizedBox(
+              width: double.maxFinite,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade100),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processando dados')),
+                    );
+                    Part part = Part.create(
+                      partDetails: _detailsController.text,
+                      partName: _nameController.text,
+                      partUnid: _unitController.text,
+                      partValue: _valueController.text,
+                    );
+                    FirebaseCloudFirestore().registerPart(part: part);
+                  }
+                },
+                child: const Text('Salvar / Utilizar no orçamento'),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -140,12 +181,12 @@ class _RegisterPartState extends State<RegisterPart> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           height: 250,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
                   'Unidade de medido do item',
                   style: TextStyle(fontSize: 18),
@@ -159,7 +200,7 @@ class _RegisterPartState extends State<RegisterPart> {
                       title: Text(_unidades[index]),
                       onTap: () {
                         setState(() {
-                          _unidadeController.text = _unidades[index];
+                          _unitController.text = _unidades[index];
                         });
                         Navigator.pop(context);
                       },

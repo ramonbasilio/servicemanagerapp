@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/alerts/alerts_dialog.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/model/part.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/model/user.dart';
 import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
@@ -73,7 +74,8 @@ class FirebaseCloudFirestore {
         .delete();
   }
 
-    Future<void> deleteMethod({required String colletion, required String id}) async {
+  Future<void> deleteMethod(
+      {required String colletion, required String id}) async {
     await _firebaseFirestore
         .collection('User')
         .doc(_firebaseAuth.currentUser!.email)
@@ -125,5 +127,14 @@ class FirebaseCloudFirestore {
       print(e);
       return null;
     }
+  }
+
+  Future<void> registerPart({required Part part}) async {
+    await _firebaseFirestore
+        .collection('User')
+        .doc('graziellacsousa@gmail.com')
+        .collection('Parts')
+        .doc(part.partId)
+        .set(part.toMap());
   }
 }
