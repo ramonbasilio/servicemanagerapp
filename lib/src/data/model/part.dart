@@ -4,17 +4,17 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class Part {
-  String? partId;
-  String partName;
-  String partDetails;
-  String partUnid;
-  String partValue;
+  String? idPart;
+  String namePart;
+  String detailsPart;
+  String unidPart;
+  String valuePart;
   Part({
-    required this.partName,
-    required this.partUnid,
-    required this.partValue,
-    required this.partDetails,
-    this.partId,
+    required this.namePart,
+    required this.unidPart,
+    required this.valuePart,
+    required this.detailsPart,
+    this.idPart,
   });
 
   factory Part.create({
@@ -25,29 +25,29 @@ class Part {
   }) {
     String partId = const Uuid().v4();
     return Part(
-        partId: partId,
-        partName: partName,
-        partDetails: partDetails,
-        partUnid: partUnid,
-        partValue: partValue);
+        idPart: partId,
+        namePart: partName,
+        detailsPart: partDetails,
+        unidPart: partUnid,
+        valuePart: partValue);
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'partName': partName,
-      'partDetails': partDetails,
-      'partUnid': partUnid,
-      'partValue': partValue,
+      'partName': namePart,
+      'partDetails': detailsPart,
+      'partUnid': unidPart,
+      'partValue': valuePart,
     };
   }
 
   factory Part.fromMap(Map<String, dynamic> map) {
     return Part(
-        partName: map['partName'] as String,
-        partDetails: map['partDetails'] ?? 'Sem notas',
-        partUnid: map['partUnid'] as String,
-        partValue: map['partValue'] as String,
-        partId: map['partId']);
+        namePart: map['partName'] as String,
+        detailsPart: map['partDetails'] ?? 'Sem notas',
+        unidPart: map['partUnid'] as String,
+        valuePart: map['partValue'] as String,
+        idPart: map['partId']);
   }
 
   String toJson() => json.encode(toMap());

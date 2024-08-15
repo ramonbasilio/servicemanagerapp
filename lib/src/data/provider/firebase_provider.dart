@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/client.dart';
+import 'package:servicemangerapp/src/data/model/part.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/model/user.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
@@ -9,6 +10,8 @@ class ManagerProvider extends GetxController {
   var controlAddClientPage = false.obs;
   var foundClients = <Client>[].obs;
   var allServiceOrder = <ServiceOrder>[].obs;
+  var allParts = <Part>[].obs;
+
   Rx<UserProfile> userProfile = UserProfile(
     email: '',
     idUser: '',
@@ -82,4 +85,12 @@ class ManagerProvider extends GetxController {
     response!.sort((a, b) => b.date!.compareTo(a.date!));
     allServiceOrder.value = response;
   }
+
+    Future<void> getAllPartsProvider() async {
+    List<Part>? response =
+        await _firebaseRepository.getAllParts();
+    allParts.value = response!;
+  }
+
+
 }

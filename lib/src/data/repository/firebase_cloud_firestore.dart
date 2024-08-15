@@ -134,7 +134,27 @@ class FirebaseCloudFirestore {
         .collection('User')
         .doc('graziellacsousa@gmail.com')
         .collection('Parts')
-        .doc(part.partId)
+        .doc(part.idPart)
         .set(part.toMap());
+  }
+
+    Future<List<Part>?> getAllParts() async {
+    List<Part> listParts = [];
+    try {
+      await _firebaseFirestore
+          .collection('User')
+          .doc('graziellacsousa@gmail.com')
+          .collection('Parts')
+          .get()
+          .then((querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          listParts.add(Part.fromMap(docSnapshot.data()));
+        }
+      });
+      return listParts;
+    } on FirebaseException catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:servicemangerapp/src/pages/3_part_list/list_part.dart';
-import 'package:servicemangerapp/src/pages/3_part_list/register_part.dart';
+import 'package:servicemangerapp/src/pages/3_parts/page_list_part.dart';
+import 'package:servicemangerapp/src/pages/3_parts/page_register_part.dart';
 
 class PagePart extends StatefulWidget {
   const PagePart({super.key});
@@ -13,8 +13,8 @@ class _PagePartState extends State<PagePart> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    ListPart(),
-    RegisterPart(),
+    PageRegisterPart(),
+    PageListPart(),
   ];
 
   void _onItemTapped(int index) {
@@ -39,11 +39,11 @@ class _PagePartState extends State<PagePart> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: SizedBox.shrink(),
-                label: 'Lista de Peças',
+                label: 'Cadastro',
               ),
               BottomNavigationBarItem(
                 icon: SizedBox.shrink(),
-                label: 'Cadastro',
+                label: 'Lista de Peças',
               ),
             ],
             currentIndex: _selectedIndex,

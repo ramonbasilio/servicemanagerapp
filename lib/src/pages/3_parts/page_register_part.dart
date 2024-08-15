@@ -1,20 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
 import 'package:servicemangerapp/src/data/repository/firebase_cloud_firestore.dart';
+import 'package:servicemangerapp/src/pages/3_parts/page_confirmation_part.dart';
 import 'package:servicemangerapp/src/pages/widgets/camera/camera_init_mult_img.dart';
 import 'package:servicemangerapp/src/pages/widgets/camera/camera_init_one_img.dart';
 import 'package:servicemangerapp/src/pages/widgets/camera_widget_3.dart';
 
-class RegisterPart extends StatefulWidget {
-  const RegisterPart({super.key});
+class PageRegisterPart extends StatefulWidget {
+  const PageRegisterPart({super.key});
 
   @override
-  State<RegisterPart> createState() => _RegisterPartState();
+  State<PageRegisterPart> createState() => _PageRegisterPartState();
 }
 
-class _RegisterPartState extends State<RegisterPart> {
+class _PageRegisterPartState extends State<PageRegisterPart> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
@@ -101,22 +103,22 @@ class _RegisterPartState extends State<RegisterPart> {
                 },
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _amountController,
-                decoration: const InputDecoration(
-                  labelText: 'Quantidade',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira a quantidade';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Por favor, insira um valor inteiro válido';
-                  }
-                  return null;
-                },
-              ),
+              // TextFormField(
+              //   controller: _amountController,
+              //   decoration: const InputDecoration(
+              //     labelText: 'Quantidade',
+              //   ),
+              //   keyboardType: TextInputType.number,
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Por favor, insira a quantidade';
+              //     }
+              //     if (int.tryParse(value) == null) {
+              //       return 'Por favor, insira um valor inteiro válido';
+              //     }
+              //     return null;
+              //   },
+              // ),
               const SizedBox(height: 24),
               CameraInitOneImg(
                 finalReturn: (String value) {
@@ -133,7 +135,7 @@ class _RegisterPartState extends State<RegisterPart> {
       ),
       bottomNavigationBar: Container(
         height: 100,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Column(
           children: [
             Row(
@@ -155,18 +157,40 @@ class _RegisterPartState extends State<RegisterPart> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade100),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processando dados')),
-                    );
-                    Part part = Part.create(
-                      partDetails: _detailsController.text,
-                      partName: _nameController.text,
-                      partUnid: _unitController.text,
-                      partValue: _valueController.text,
-                    );
-                    FirebaseCloudFirestore().registerPart(part: part);
-                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processando dados')),
+                  );
+                  Part part = Part.create(
+                    partDetails: _detailsController.text,
+                    partName: _nameController.text,
+                    partUnid: _unitController.text,
+                    partValue: _valueController.text,
+                  );
+                  FirebaseCloudFirestore().registerPart(part: part);
+
+                  // Part partTest1 = Part.create(
+                  //     partName: 'Tela Celular',
+                  //     partUnid: 'Unidade',
+                  //     partValue: '100,00',
+                  //     partDetails: 'Tela Iphone-13');
+
+                  // Part partTest2 = Part.create(
+                  //     partName: 'Botão',
+                  //     partUnid: 'Unidade',
+                  //     partValue: '200,00',
+                  //     partDetails: 'Tela Iphone-13');
+
+                  // Part partTest3 = Part.create(
+                  //     partName: 'Capinha',
+                  //     partUnid: 'Unidade',
+                  //     partValue: '100,00',
+                  //     partDetails: 'Tela Iphone-13');
+
+                  // List<Part> listPart = [];
+                  // listPart.addAll([partTest1, partTest2, partTest3]);
+                  // Get.to(() => PageConfirmationPart(part: listPart));
+                  // if (_formKey.currentState!.validate()) {
+                  // }
                 },
                 child: const Text('Salvar / Utilizar no orçamento'),
               ),
