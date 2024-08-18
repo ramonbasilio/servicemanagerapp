@@ -54,6 +54,7 @@ dependencies:
   http: ^1.2.2
   camera: ^0.10.6
   image_editor_plus: ^1.0.6
+  vibration: ^2.0.0
 
 dev_dependencies:
   flutter_test:

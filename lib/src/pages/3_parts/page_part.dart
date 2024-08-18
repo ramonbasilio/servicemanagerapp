@@ -27,14 +27,14 @@ class _PagePartState extends State<PagePart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peças'),
+        title: const Text('Peças'),
         centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
           BottomNavigationBar(
             selectedLabelStyle:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+               const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             backgroundColor: Colors.grey.shade300,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

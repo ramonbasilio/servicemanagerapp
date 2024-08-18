@@ -77,9 +77,8 @@ class _PageListPartState extends State<PageListPart> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green.shade100),
             onPressed: () {
-              Get.to(() => PageConfirmationPart(part: selectedParts));
-              // if (_formKey.currentState!.validate()) {
-              // }
+              clientController.listParts.value = selectedParts;
+              Get.off(() => PageConfirmationPart(part: selectedParts));
             },
             child: const Text('Utilizar no orçamento'),
           ),
@@ -110,11 +109,11 @@ class _PageListPartState extends State<PageListPart> {
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text('Editar'),
+                    child: const Text('Editar'),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Text('Apagar'),
+                    child: const Text('Apagar'),
                   )
                 ],
               )

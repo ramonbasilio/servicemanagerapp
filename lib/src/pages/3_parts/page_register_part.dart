@@ -29,6 +29,8 @@ class _PageRegisterPartState extends State<PageRegisterPart> {
   String stringImagePath = '';
   bool isChecked = false;
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

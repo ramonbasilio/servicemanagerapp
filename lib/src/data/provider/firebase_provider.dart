@@ -11,6 +11,7 @@ class ManagerProvider extends GetxController {
   var foundClients = <Client>[].obs;
   var allServiceOrder = <ServiceOrder>[].obs;
   var allParts = <Part>[].obs;
+  var listParts = <Part>[].obs;
 
   Rx<UserProfile> userProfile = UserProfile(
     email: '',
@@ -86,11 +87,13 @@ class ManagerProvider extends GetxController {
     allServiceOrder.value = response;
   }
 
-    Future<void> getAllPartsProvider() async {
-    List<Part>? response =
-        await _firebaseRepository.getAllParts();
+  Future<void> getAllPartsProvider() async {
+    List<Part>? response = await _firebaseRepository.getAllParts();
     allParts.value = response!;
   }
 
-
+  void removeItemListPart(Part part) {
+    listParts.remove(part);
+    print('Lista atualizada de itens: $listParts');
+  }
 }
