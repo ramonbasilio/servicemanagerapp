@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
+import 'package:servicemangerapp/src/data/provider/common_provider.dart';
+import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_part.dart';
 import 'package:servicemangerapp/src/pages/widgets/cart_confirmation_part_widget.dart';
 
@@ -14,6 +16,8 @@ class PageConfirmationPart extends StatefulWidget {
 
 class _PageConfirmationPartState extends State<PageConfirmationPart> {
   List<String> valuesPrices = [];
+  CommonProvider myProvider = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +45,7 @@ class _PageConfirmationPartState extends State<PageConfirmationPart> {
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: CartConfirmationPartWidget(
-                                finalPrice: (p0) {
-                                  setState(() {
-                                    valuesPrices[index] = p0;
-                                  });
-                                },
-                                removePartFromList: (part) {
-                                  setState(() {
-                                    widget.part.remove(part);
-                                  });
-                                },
-                                part: widget.part[index],
-                                index: index),
+                                part: widget.part[index], index: index),
                           ),
                           //const Divider()
                         ],
@@ -60,12 +53,13 @@ class _PageConfirmationPartState extends State<PageConfirmationPart> {
                     },
                   ),
           ),
+          Obx(() => Text('Valor das peças: R\$: ${myProvider.finalPriceParts.value}'),)
         ],
       ),
-      bottomNavigationBar: SizedBox(
-        height: 100,
-        child: Text(valuesPrices.toString()),
-      ),
+      // bottomNavigationBar: Obx(() => SizedBox(
+      //         height: 100,
+      //         child: Text('Valor das peças: R\$: ${myProvider.finalPriceParts.value}'),
+      //       )),
     );
   }
 }

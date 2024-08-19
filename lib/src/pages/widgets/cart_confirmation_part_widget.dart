@@ -2,19 +2,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
+import 'package:servicemangerapp/src/data/provider/common_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:vibration/vibration.dart';
 
 class CartConfirmationPartWidget extends StatefulWidget {
   Part part;
   int index;
-  final Function(Part) removePartFromList;
-  final Function(String) finalPrice;
   CartConfirmationPartWidget({
-    required this.finalPrice,
     required this.part,
     required this.index,
-    required this.removePartFromList,
     super.key,
   });
 
@@ -28,10 +25,13 @@ class _CartConfirmationPartWidgetState
   double valuePartFinal = 0.0;
   int amount = 1;
   bool controlRemoveItem = false;
+  CommonProvider myProvider = Get.find();
 
   @override
   void initState() {
     valuePartFinal = double.parse(widget.part.valuePart.replaceAll(',', '.'));
+    double value = valuePartFinal * amount;
+    myProvider.getFinalPriceParts(value: value);
     super.initState();
   }
 
@@ -47,7 +47,8 @@ class _CartConfirmationPartWidgetState
 
       valuePartFinal =
           double.parse(widget.part.valuePart.replaceAll(',', '.')) * amount;
-      widget.finalPrice(valuePartFinal.toString());
+      myProvider.getFinalPriceParts(
+          newIndex: widget.index, newValue: valuePartFinal);
     });
   }
 
@@ -68,10 +69,16 @@ class _CartConfirmationPartWidgetState
     setState(() {
       valuePartFinal =
           double.parse(widget.part.valuePart.replaceAll(',', '.')) * amount;
+      if (amount > 0) {
+        myProvider.getFinalPriceParts(
+            newIndex: widget.index, newValue: valuePartFinal);
+      }
+      else{
+                myProvider.getFinalPriceParts(
+            newIndex: widget.index, newValue: 0);
+      }
     });
   }
-
-  ManagerProvider clientController = Get.put(ManagerProvider());
 
   @override
   Widget build(BuildContext context) {

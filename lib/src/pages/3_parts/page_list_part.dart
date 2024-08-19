@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
+import 'package:servicemangerapp/src/data/provider/common_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_confirmation_part.dart';
 
@@ -13,6 +14,7 @@ class PageListPart extends StatefulWidget {
 
 class _PageListPartState extends State<PageListPart> {
   ManagerProvider clientController = Get.put(ManagerProvider());
+  CommonProvider myProvider = Get.put(CommonProvider());
   List<Part> selectedParts = [];
   List<Part> parts = [];
 
