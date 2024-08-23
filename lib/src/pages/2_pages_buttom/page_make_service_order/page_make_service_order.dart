@@ -153,9 +153,16 @@ class _PageMakeServiceOrderState extends State<PageMakeServiceOrder> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
+                    decoration: BoxDecoration(
+                      border: const Border(
+                        left: BorderSide(
+                          color: Colors.black,
+                          width: 5.0,
+                        ),
+                      ),
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.grey.shade200),
+                      color: Colors.grey.shade200,
+                    ),
                   height: 100,
                   width: double.infinity,
                   child: Obx(

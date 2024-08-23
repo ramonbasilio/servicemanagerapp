@@ -17,8 +17,14 @@ class StatusServiceWidget extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       height: 200,
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(10),
+        border: const Border(
+          left: BorderSide(
+            color: Colors.black,
+            width: 5.0,
+          ),
+        ),
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.grey.shade200,
       ),
       child: Column(
         children: [
@@ -35,7 +41,8 @@ class StatusServiceWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Total de clientes'),
-                    Obx(() => Text(managerProvider.foundClients.length.toString())),
+                    Obx(() =>
+                        Text(managerProvider.foundClients.length.toString())),
                   ],
                 ),
                 Row(

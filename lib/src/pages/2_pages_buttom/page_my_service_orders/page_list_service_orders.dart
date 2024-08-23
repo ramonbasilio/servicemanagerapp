@@ -6,6 +6,7 @@ import 'package:servicemangerapp/src/data/model/service_order.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
 import 'package:servicemangerapp/src/extensions/extensions.dart';
 import 'package:servicemangerapp/src/pages/2_pages_buttom/page_my_service_orders/page_edit_service_order.dart';
+import 'package:servicemangerapp/src/pages/2_pages_buttom/page_quote/page_quote.dart';
 import 'package:servicemangerapp/src/pages/widgets/deleteServiceOrderConfirmation.dart';
 import 'package:servicemangerapp/src/pdf/genarate_pdf.dart';
 import 'package:servicemangerapp/src/pdf/view_pdf_2.dart';
@@ -95,7 +96,9 @@ class PageListServiceOrders extends StatelessWidget {
                 ListTile(
                     leading: const Icon(Icons.monetization_on),
                     title: const Text('Gerar Orçamento'),
-                    onTap: () => {}),
+                    onTap: () => {
+                      Get.to(()=>PageQuote(serviceOrder: serviceOrder,))
+                    }),
                 ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('Editar'),

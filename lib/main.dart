@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:servicemangerapp/src/data/provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:servicemangerapp/src/pages/0_pages_login/page_splash/page_splash.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_part.dart';
 import 'firebase_options.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PagePart(),
+      home: PageSplash(),
     );
   }
 }

@@ -135,8 +135,15 @@ class _PageEditServiceOrderState extends State<PageEditServiceOrder> {
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.grey.shade200),
+                    border: const Border(
+                      left: BorderSide(
+                        color: Colors.black,
+                        width: 5.0,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey.shade200,
+                  ),
                   height: 100,
                   width: double.infinity,
                   child: Column(
