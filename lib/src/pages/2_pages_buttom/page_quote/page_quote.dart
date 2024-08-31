@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:servicemangerapp/src/data/model/service_order.dart';
+import 'package:servicemangerapp/src/data/provider/listPart_provider.dart';
 import 'package:servicemangerapp/src/extensions/extensions.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_part.dart';
 
@@ -9,6 +10,7 @@ class PageQuote extends StatelessWidget {
   ServiceOrder serviceOrder;
   PageQuote({required this.serviceOrder, super.key});
 
+  ListPartController listPartController = Get.put(ListPartController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,14 +212,16 @@ class PageQuote extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 10),
                         margin: const EdgeInsets.only(bottom: 10),
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                'Sem peças',
-                              ),
+                              child: Obx(() => Text(
+                                    listPartController.partItemsList.isEmpty
+                                        ? 'Sem peças'
+                                        : 'PEÇAS ADICIONADAS',
+                                  )),
                             ),
                           ],
                         ),
@@ -249,17 +253,53 @@ class PageQuote extends StatelessWidget {
 
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return const SizedBox(
-              width: double.maxFinite,
-              height: 150,
-              child: Center(
-                  child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                    'BOTTOM SHEET TESTE - AS PEÇAS APARECERÃO NESSA SESSÃO'),
-              )));
-        });
+      context: context,
+      builder: (context) {
+        return  SizedBox(
+          width: double.maxFinite,
+          height: 150,
+          child: Column(
+        children: [
+          Flexible(child: Obx(() {
+            return ListView.builder(
+                itemCount: listPartController.partItemsList.length,
+                itemBuilder: (context, index) {
+                  final part = listPartController.partItemsList[index];
+                  return ListTile(
+                    tileColor: part.quantity.value == 0
+                        ? Color.fromARGB(255, 247, 78, 95)
+                        : Colors.white,
+                    title: Text(part.name),
+                    subtitle: Obx(() => Text(part.quantity.toString())),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.remove),
+                          onPressed: () {
+                            if (part.quantity > 1) {
+                              listPartController.updateItemQuantity(
+                                  part, part.quantity.value - 1);
+                            } else {
+                              listPartController.updateItemQuantity(part, 0);
+                            }
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () =>
+                              listPartController.updateItemQuantity(
+                                  part, part.quantity.value + 1),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          })),
+        ],
+      ),
+        );
+      },
+    );
   }
 }

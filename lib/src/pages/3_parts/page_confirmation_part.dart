@@ -1,65 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicemangerapp/src/data/model/cartPart.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
-import 'package:servicemangerapp/src/data/provider/common_provider.dart';
-import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:servicemangerapp/src/data/provider/listPart_provider.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_part.dart';
-import 'package:servicemangerapp/src/pages/widgets/cart_confirmation_part_widget.dart';
 
-class PageConfirmationPart extends StatefulWidget {
-  List<Part> part;
+class PageConfirmationPart extends StatelessWidget {
+  List<CartPart> part;
   PageConfirmationPart({required this.part, super.key});
 
-  @override
-  State<PageConfirmationPart> createState() => _PageConfirmationPartState();
-}
-
-class _PageConfirmationPartState extends State<PageConfirmationPart> {
   List<String> valuesPrices = [];
-  CommonProvider myProvider = Get.find();
+  ListPartController listPartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    listPartController.updatePriceTotal();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Peças do Orçamento'),
         leading: IconButton(
-          icon: Icon(Icons.abc),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Ação quando o botão de votar for pressionado
             Get.off(() => PagePart());
-            // Você pode adicionar aqui a lógica de votação
           },
         ),
       ),
       body: Column(
         children: [
-          Flexible(
-            child: widget.part.isEmpty
-                ? const Text('Sem itens')
-                : ListView.builder(
-                    itemCount: widget.part.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: CartConfirmationPartWidget(
-                                part: widget.part[index], index: index),
-                          ),
-                          //const Divider()
-                        ],
-                      );
-                    },
-                  ),
-          ),
-          Obx(() => Text('Valor das peças: R\$: ${myProvider.finalPriceParts.value}'),)
+          Flexible(child: Obx(() {
+            return ListView.builder(
+                itemCount: listPartController.partItemsList.length,
+                itemBuilder: (context, index) {
+                  final part = listPartController.partItemsList[index];
+                  return ListTile(
+                    tileColor: part.quantity.value == 0
+                        ? Color.fromARGB(255, 247, 78, 95)
+                        : Colors.white,
+                    title: Text(part.name),
+                    subtitle: Obx(() => Text(part.quantity.toString())),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.remove),
+                          onPressed: () {
+                            if (part.quantity > 1) {
+                              listPartController.updateItemQuantity(
+                                  part, part.quantity.value - 1);
+                            } else {
+                              listPartController.updateItemQuantity(part, 0);
+                            }
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () =>
+                              listPartController.updateItemQuantity(
+                                  part, part.quantity.value + 1),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          })),
         ],
       ),
-      // bottomNavigationBar: Obx(() => SizedBox(
-      //         height: 100,
-      //         child: Text('Valor das peças: R\$: ${myProvider.finalPriceParts.value}'),
-      //       )),
+      bottomNavigationBar: SizedBox(
+        height: 120,
+        child: Column(
+          children: [
+            Obx(() {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                    'Total: R\$ ${listPartController.totalPrice.value.toStringAsFixed(2)}'),
+              );
+            }),
+            ElevatedButton(
+                onPressed: () {
+                  int numberOfPagesToGoBack = 1;
+                  for (int i = 0; i < numberOfPagesToGoBack; i++) {
+                    Get.back();
+                  }
+                },
+                child: Text('Enviar para orçamento'))
+          ],
+        ),
+      ),
     );
   }
 }

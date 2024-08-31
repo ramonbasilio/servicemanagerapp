@@ -22,14 +22,12 @@ class _PageRegisterPartState extends State<PageRegisterPart> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _detailsController = TextEditingController();
   final TextEditingController _unitController = TextEditingController();
-  final TextEditingController _valueController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
 
   final List<String> _unidades = ['Kg', 'Litro', 'Metro', 'Unidade', 'Caixa'];
   String stringImagePath = '';
   bool isChecked = false;
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +86,7 @@ class _PageRegisterPartState extends State<PageRegisterPart> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _valueController,
+                controller: _priceController,
                 decoration: const InputDecoration(
                   labelText: 'Preço',
                 ),
@@ -105,22 +103,22 @@ class _PageRegisterPartState extends State<PageRegisterPart> {
                 },
               ),
               const SizedBox(height: 16),
-              // TextFormField(
-              //   controller: _amountController,
-              //   decoration: const InputDecoration(
-              //     labelText: 'Quantidade',
-              //   ),
-              //   keyboardType: TextInputType.number,
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Por favor, insira a quantidade';
-              //     }
-              //     if (int.tryParse(value) == null) {
-              //       return 'Por favor, insira um valor inteiro válido';
-              //     }
-              //     return null;
-              //   },
-              // ),
+              TextFormField(
+                controller: _quantityController,
+                decoration: const InputDecoration(
+                  labelText: 'Quantidade',
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira a quantidade';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'Por favor, insira um valor inteiro válido';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 24),
               CameraInitOneImg(
                 finalReturn: (String value) {
@@ -163,10 +161,12 @@ class _PageRegisterPartState extends State<PageRegisterPart> {
                     const SnackBar(content: Text('Processando dados')),
                   );
                   Part part = Part.create(
-                    partDetails: _detailsController.text,
-                    partName: _nameController.text,
-                    partUnid: _unitController.text,
-                    partValue: _valueController.text,
+                    namePart: _nameController.text,
+                    detailsPart: _detailsController.text,
+                    unitPart: _unitController.text,
+                    pricePart: double.parse(
+                        _priceController.text.replaceAll(',', '.')),
+                    quantityPart: int.parse(_quantityController.text),
                   );
                   FirebaseCloudFirestore().registerPart(part: part);
 

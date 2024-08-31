@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicemangerapp/src/data/model/cartPart.dart';
 import 'package:servicemangerapp/src/data/model/part.dart';
 import 'package:servicemangerapp/src/data/provider/common_provider.dart';
 import 'package:servicemangerapp/src/data/provider/firebase_provider.dart';
+import 'package:servicemangerapp/src/data/provider/listPart_provider.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_confirmation_part.dart';
 
 class PageListPart extends StatefulWidget {
@@ -14,7 +16,7 @@ class PageListPart extends StatefulWidget {
 
 class _PageListPartState extends State<PageListPart> {
   ManagerProvider clientController = Get.put(ManagerProvider());
-  CommonProvider myProvider = Get.put(CommonProvider());
+  ListPartController listPartController = Get.find();
   List<Part> selectedParts = [];
   List<Part> parts = [];
 
@@ -79,8 +81,23 @@ class _PageListPartState extends State<PageListPart> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green.shade100),
             onPressed: () {
-              clientController.listParts.value = selectedParts;
-              Get.off(() => PageConfirmationPart(part: selectedParts));
+              //clientController.listParts.value = selectedParts;
+              List<CartPart> _cartPartList = [];
+              int id = 0;
+              for (var part in selectedParts) {
+                CartPart cartPart = CartPart(
+                    name: part.namePart,
+                    quantity: part.quantityPart,
+                    index: id,
+                    price: part.pricePart);
+                id++;
+                _cartPartList.add(cartPart);
+              }
+              listPartController.partItemsList.value = _cartPartList;
+              print(
+                  'Minha lista de peças: ${listPartController.partItemsList}');
+
+              Get.off(() => PageConfirmationPart(part: _cartPartList));
             },
             child: const Text('Utilizar no orçamento'),
           ),
@@ -106,7 +123,7 @@ class _PageListPartState extends State<PageListPart> {
               ),
               Text('Nome da peça: ${part.namePart}'),
               Text('Detalhes: ${part.detailsPart}'),
-              Text('Unidade de medida: ${part.unidPart}'),
+              Text('Unidade de medida: ${part.quantityPart}'),
               Row(
                 children: [
                   TextButton(

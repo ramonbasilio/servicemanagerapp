@@ -7,46 +7,52 @@ class Part {
   String? idPart;
   String namePart;
   String detailsPart;
-  String unidPart;
-  String valuePart;
+  String unitPart;
+  int quantityPart;
+  double pricePart;
   Part({
     required this.namePart,
-    required this.unidPart,
-    required this.valuePart,
+    required this.quantityPart,
+    required this.pricePart,
     required this.detailsPart,
+    required this.unitPart,
     this.idPart,
   });
 
   factory Part.create({
-    required String partName,
-    required String partUnid,
-    required String partValue,
-    required String partDetails,
+    required String namePart,
+    required int quantityPart,
+    required double pricePart,
+    required String detailsPart,
+    required String unitPart,
   }) {
     String partId = const Uuid().v4();
     return Part(
+        unitPart: unitPart,
         idPart: partId,
-        namePart: partName,
-        detailsPart: partDetails,
-        unidPart: partUnid,
-        valuePart: partValue);
+        namePart: namePart,
+        detailsPart: detailsPart,
+        quantityPart: quantityPart,
+        pricePart: pricePart);
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'partName': namePart,
-      'partDetails': detailsPart,
-      'partUnid': unidPart,
-      'partValue': valuePart,
+      'namePart': namePart,
+      'detailsPart': detailsPart,
+      'unitPart': unitPart,
+      'pricePart': pricePart,
+      'quantityPart': quantityPart
     };
   }
 
   factory Part.fromMap(Map<String, dynamic> map) {
     return Part(
-        namePart: map['partName'] as String,
-        detailsPart: map['partDetails'] ?? 'Sem notas',
-        unidPart: map['partUnid'] as String,
-        valuePart: map['partValue'] as String,
+        namePart: map['namePart'] as String,
+        detailsPart: map['detailsPart'] ?? 'Sem notas',
+        quantityPart: map['quantityPart'] as int,
+        pricePart: map['pricePart'] as double,
+        unitPart: map['unitPart'] as String,
         idPart: map['partId']);
   }
 
