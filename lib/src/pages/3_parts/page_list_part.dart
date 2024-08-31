@@ -97,7 +97,8 @@ class _PageListPartState extends State<PageListPart> {
               print(
                   'Minha lista de peças: ${listPartController.partItemsList}');
 
-              Get.off(() => PageConfirmationPart(part: _cartPartList));
+              // Get.off(() => PageConfirmationPart(part: _cartPartList));
+              Get.back();
             },
             child: const Text('Utilizar no orçamento'),
           ),

@@ -97,7 +97,8 @@ class PageListServiceOrders extends StatelessWidget {
                     leading: const Icon(Icons.monetization_on),
                     title: const Text('Gerar Orçamento'),
                     onTap: () => {
-                      Get.to(()=>PageQuote(serviceOrder: serviceOrder,))
+                      Get.back(),
+                      Get.to(()=>PageQuote(serviceOrder: serviceOrder,)),
                     }),
                 ListTile(
                     leading: const Icon(Icons.edit),

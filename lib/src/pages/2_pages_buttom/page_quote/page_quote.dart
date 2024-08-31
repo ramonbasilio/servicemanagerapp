@@ -6,13 +6,20 @@ import 'package:servicemangerapp/src/data/provider/listPart_provider.dart';
 import 'package:servicemangerapp/src/extensions/extensions.dart';
 import 'package:servicemangerapp/src/pages/3_parts/page_part.dart';
 
-class PageQuote extends StatelessWidget {
+class PageQuote extends StatefulWidget {
   ServiceOrder serviceOrder;
   PageQuote({required this.serviceOrder, super.key});
 
+  @override
+  State<PageQuote> createState() => _PageQuoteState();
+}
+
+class _PageQuoteState extends State<PageQuote> {
   ListPartController listPartController = Get.put(ListPartController());
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Orçamento'),
@@ -53,13 +60,13 @@ class PageQuote extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Nome: ${serviceOrder.client.name}',
+                            'Nome: ${widget.serviceOrder.client.name}',
                           ),
                           Text(
-                            'Email: ${serviceOrder.client.email}',
+                            'Email: ${widget.serviceOrder.client.email}',
                           ),
                           Text(
-                            'Telefone: ${serviceOrder.client.phone}',
+                            'Telefone: ${widget.serviceOrder.client.phone}',
                           ),
                         ],
                       ),
@@ -94,19 +101,19 @@ class PageQuote extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Equipamento: ${serviceOrder.equipment}',
+                            'Equipamento: ${widget.serviceOrder.equipment}',
                           ),
                           Text(
-                            'Marca: ${serviceOrder.brand}',
+                            'Marca: ${widget.serviceOrder.brand}',
                           ),
                           Text(
-                            'Modelo: ${serviceOrder.model}',
+                            'Modelo: ${widget.serviceOrder.model}',
                           ),
                           Text(
-                            'Defeito: ${serviceOrder.defect}',
+                            'Defeito: ${widget.serviceOrder.defect}',
                           ),
                           Text(
-                            'Chegada na assis. técnica: ${serviceOrder.date!.dateTimeFormart()}',
+                            'Chegada na assis. técnica: ${widget.serviceOrder.date!.dateTimeFormart()}',
                           ),
                         ],
                       ),
@@ -252,52 +259,65 @@ class PageQuote extends StatelessWidget {
   }
 
   void _showBottomSheet(BuildContext context) {
+    listPartController.updatePriceTotal();
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return  SizedBox(
+        return SizedBox(
           width: double.maxFinite,
-          height: 150,
+          height: 200,
           child: Column(
-        children: [
-          Flexible(child: Obx(() {
-            return ListView.builder(
-                itemCount: listPartController.partItemsList.length,
-                itemBuilder: (context, index) {
-                  final part = listPartController.partItemsList[index];
-                  return ListTile(
-                    tileColor: part.quantity.value == 0
-                        ? Color.fromARGB(255, 247, 78, 95)
-                        : Colors.white,
-                    title: Text(part.name),
-                    subtitle: Obx(() => Text(part.quantity.toString())),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.remove),
-                          onPressed: () {
-                            if (part.quantity > 1) {
-                              listPartController.updateItemQuantity(
-                                  part, part.quantity.value - 1);
-                            } else {
-                              listPartController.updateItemQuantity(part, 0);
-                            }
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () =>
-                              listPartController.updateItemQuantity(
-                                  part, part.quantity.value + 1),
-                        ),
-                      ],
-                    ),
-                  );
-                });
-          })),
-        ],
-      ),
+            children: [
+              Flexible(
+                child: Obx(
+                  () {
+                    return ListView.builder(
+                        itemCount: listPartController.partItemsList.length,
+                        itemBuilder: (context, index) {
+                          final part = listPartController.partItemsList[index];
+                          return ListTile(
+                            tileColor: part.quantity.value == 0
+                                ? Color.fromARGB(255, 247, 78, 95)
+                                : Colors.white,
+                            title: Text(part.name),
+                            subtitle: Obx(() => Text(part.quantity.toString())),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.remove),
+                                  onPressed: () {
+                                    if (part.quantity > 1) {
+                                      listPartController.updateItemQuantity(
+                                          part, part.quantity.value - 1);
+                                    } else {
+                                      listPartController.updateItemQuantity(
+                                          part, 0);
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () =>
+                                      listPartController.updateItemQuantity(
+                                          part, part.quantity.value + 1),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                ),
+              ),
+              Obx(() {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                      'Total: R\$ ${listPartController.totalPrice.value.toStringAsFixed(2)}'),
+                );
+              }),
+            ],
+          ),
         );
       },
     );
